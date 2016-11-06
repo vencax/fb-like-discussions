@@ -16,7 +16,10 @@ class DiscussionsView extends React.Component {
         { state.currentView.discussions.map((dis, idx) => {
           return (<li key={idx}>
             <Discussion discussion={dis} state={state}
-              onLoadReplies={()=>state.loadReplies(state.currentView, dis)} />
+              onLoadReplies={()=>state.loadReplies(state.currentView, dis)}
+              onReply={()=>state.composeReply(dis)}
+              onReplyChange={(newVal)=>state.updateReply(dis, newVal)}
+              onSendReply={()=>state.sendReply(dis)} />
           </li>)
         })}
       </ul>

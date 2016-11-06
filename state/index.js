@@ -7,7 +7,10 @@ export default (BaseClass) => class DiscussionsState extends BaseClass {
       page: opts.page || 1,
       perPage: opts.perPage || 10
     }).then((result) => {
-      result.data.map((i) => i.replies = [])
+      result.data.map((discussion) => {
+        discussion.replies = []
+        discussion.reply = null
+      })
       extendObservable(state, {
         discussions: result.data,
         totalDiscusions: result.totalItems
@@ -39,6 +42,25 @@ export default (BaseClass) => class DiscussionsState extends BaseClass {
 
   @action downvote(reply) {
     reply.rating = reply.rating - 1
+  }
+
+  @action composeReply(discussion) {
+    discussion.reply = ''
+  }
+
+  @action sendReply(discussion) {
+    this.requester.saveEntry('replies', {
+      parent: discussion.id,
+      author: "frodo@shire.nz",
+      body: discussion.reply
+    }).then((data) => {
+      discussion.replies.push(data)
+      discussion.reply = null
+    })
+  }
+
+  @action updateReply(discussion, val) {
+    discussion.reply = val
   }
 
 }
