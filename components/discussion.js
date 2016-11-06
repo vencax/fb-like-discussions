@@ -7,7 +7,8 @@ class Discussion extends React.Component {
 
   static propTypes = {
     discussion: React.PropTypes.object.isRequired,
-    state: React.PropTypes.object.isRequired
+    state: React.PropTypes.object.isRequired,
+    onLoadReplies: React.PropTypes.func.isRequired
   }
 
   thisRenderReplies(replies) {
@@ -24,14 +25,14 @@ class Discussion extends React.Component {
   }
 
   render() {
-    const { discussion, state } = this.props
+    const { discussion, state, onLoadReplies } = this.props
     const replies = discussion.replies.length ? this.thisRenderReplies(discussion.replies) : null
     return (
       <div className="discussion">
         <h4>{discussion.title}</h4>
         <p>
           {discussion.created} | {discussion.author} |
-          <button onClick={(e)=>state.loadReplies(discussion)}>
+          <button onClick={(e)=>onLoadReplies()}>
             {discussion.reply_count} replies
           </button>
         </p>

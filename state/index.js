@@ -15,7 +15,10 @@ export default (BaseClass) => class DiscussionsState extends BaseClass {
     })
   }
 
-  @action loadReplies(discussion) {
+  @action loadReplies(state, discussion) {
+    if(state.shownDiscussion) {
+      state.shownDiscussion.replies = []  // delete current
+    }
     this.requester.getEntries('replies', {
       filters: {parent: discussion.id},
       page: 1,
@@ -23,6 +26,10 @@ export default (BaseClass) => class DiscussionsState extends BaseClass {
     })
     .then((result) => {
       discussion.replies = result.data
+      extendObservable(state, {
+        shownDiscussion: discussion,
+        totalReplies: result.totalItems
+      })
     })
   }
 
