@@ -8,7 +8,6 @@ var port = process.env.FAKEBACKENDPORT || 3000
 
 server.use(middlewares)
 server.use(function (req, res, next) {
-  console.log(req.method)
   if (req.method === 'POST') {
     req.body.created = Date.now()
   }
