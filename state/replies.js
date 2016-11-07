@@ -1,6 +1,7 @@
 import { action, extendObservable, transaction } from 'mobx'
+import ReplyFeedbacksStateInit from './replyfeedbacks'
 
-export default (BaseClass) => class RepliesState extends BaseClass {
+export default (BaseClass) => class RepliesState extends ReplyFeedbacksStateInit(BaseClass) {
 
   @action loadReplies(state, discussion) {
     if(state.shownDiscussion) {
@@ -20,44 +21,8 @@ export default (BaseClass) => class RepliesState extends BaseClass {
           totalReplies: result.totalItems
         })
       })
-      this._loadReplyFeedbacks(discussion.replies)
+      this.loadReplyFeedbacks(discussion.replies)
     })
-  }
-
-  @action upvote(reply) {
-    if(reply.feedback && reply.feedback.feedback === -1) {
-      this.requester.deleteEntry('replyfeedbacks', reply.feedback.id).then(() => {
-        reply.feedback = null
-        reply.rating = reply.rating + 1
-      })
-    } else if(reply.feedback === null) {
-      this.requester.saveEntry('replyfeedbacks', {
-        feedback: 1,
-        replyid: reply.id,
-        uid: this.getLoggedUserId()
-      }).then((result) => {
-        reply.feedback = result
-        reply.rating = reply.rating + 1
-      })
-    }
-  }
-
-  @action downvote(reply) {
-    if(reply.feedback && reply.feedback.feedback === 1) {
-      this.requester.deleteEntry('replyfeedbacks', reply.feedback.id).then(() => {
-        reply.feedback = null
-        reply.rating = reply.rating - 1
-      })
-    } else if(reply.feedback === null) {
-      this.requester.saveEntry('replyfeedbacks', {
-        feedback: -1,
-        replyid: reply.id,
-        uid: this.getLoggedUserId()
-      }).then((result) => {
-        reply.feedback = result
-        reply.rating = reply.rating - 1
-      })
-    }
   }
 
   @action composeReply(discussion) {
@@ -77,24 +42,6 @@ export default (BaseClass) => class RepliesState extends BaseClass {
 
   @action updateReply(discussion, val) {
     discussion.reply = val
-  }
-
-  _loadReplyFeedbacks(replies) {
-    replies.map((reply) => {
-      this.requester.getEntries('replyfeedbacks', {
-        filters: {
-          replyid: reply.id,
-          uid: this.getLoggedUserId()
-        },
-        page: 1,
-        perPage: 1
-      })
-      .then((result) => {
-        if(result.data.length > 0) {
-          reply.feedback = result.data[0]
-        }
-      })
-    })
   }
 
 }
