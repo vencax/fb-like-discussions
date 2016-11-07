@@ -25,4 +25,8 @@ export default class StateStore extends CommentsState {
     this.loadDiscussions(this.currentView)
   }
 
+  getLoggedUserId() {
+    return 3
+  }
+
 }

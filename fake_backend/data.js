@@ -42,14 +42,14 @@ module.exports = {
   "replies": [{
     "id": 1,
     "parent": 1,
-    "rating": 4,
+    "rating": 1,
     "author": "frodo@shire.nz",
     "body": "Queen, tossing 'If it had lost something; and she felt sure it.",
     "created": "2012-08-02"
   }, {
     "id": 2,
     "parent": 1,
-    "rating": 6,
+    "rating": 2,
     "author": "Sigurd O'Conner",
     "body": "I am very profi answer, that's because i have soo big rating",
     "created": "2012-07-02"
@@ -60,5 +60,21 @@ module.exports = {
     "author": "frodo@shire.nz",
     "body": "Ja sem Frodo pytlik, tralala.",
     "created": "2012-08-23"
+  }],
+  "replyfeedbacks": [{
+    "id": 1,
+    "uid": 3,
+    "replyid": 1,
+    "feedback": 1
+  }, {
+    "id": 2,
+    "uid": 3,
+    "replyid": 2,
+    "feedback": 1
+  }, {
+    "id": 3,
+    "uid": 33,
+    "replyid": 2,
+    "feedback": 1
   }]
 }
