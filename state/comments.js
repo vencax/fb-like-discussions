@@ -29,8 +29,8 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
     })
   }
 
-  @action composeComment(discussion) {
-    discussion.comment = ''
+  @action composeComment(discussion, status = true) {
+    discussion.comment = status ? '' : null
   }
 
   @action sendComment(discussion) {

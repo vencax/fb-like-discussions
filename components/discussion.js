@@ -9,7 +9,7 @@ class Discussion extends React.Component {
     discussion: React.PropTypes.object.isRequired,
     state: React.PropTypes.object.isRequired,
     onLoadComments: React.PropTypes.func.isRequired,
-    onComment: React.PropTypes.func.isRequired,
+    showCommentForm: React.PropTypes.func.isRequired,
     onCommentChange: React.PropTypes.func.isRequired,
     onSendComment: React.PropTypes.func.isRequired,
     onLoadReplies: React.PropTypes.func.isRequired
@@ -30,17 +30,26 @@ class Discussion extends React.Component {
   }
 
   renderCommentForm(discussion) {
-    const { onCommentChange, onSendComment } = this.props
+    const { onCommentChange, onSendComment, showCommentForm } = this.props
     return (
       <div className="commentform">
         <textarea onChange={(e)=>onCommentChange(e.target.value)} value={discussion.comment} />
         <button onClick={(e)=>onSendComment()}>send</button>
+        <button onClick={(e)=>showCommentForm(false)}>cancel</button>
       </div>
     )
   }
 
+  _renderCommentButton(discussion, showCommentForm) {
+    const show = (discussion.comment_count === 0 || discussion.comments.length > 0) &&
+      discussion.comment === null
+    return show ? (
+      <button onClick={(e)=>showCommentForm()}>comment</button>
+    ) : null
+  }
+
   render() {
-    const { discussion, state, onLoadComments, onComment } = this.props
+    const { discussion, state, onLoadComments, showCommentForm } = this.props
     const comments = discussion.comments.length ? this.renderComments(discussion.comments) : null
     const loadButton = discussion.comment_count ? (
       <button onClick={(e)=>onLoadComments()}>
@@ -49,8 +58,6 @@ class Discussion extends React.Component {
     ) : null
     const commentForm = discussion.comment !== null ?
       this.renderCommentForm(discussion) : null
-    const commentButton = (discussion.comment_count === 0 || discussion.comments.length > 0) ?
-      (<button onClick={(e)=>onComment()}>comment</button>) : null
     return (
       <div className="discussion">
         <h4>{discussion.title}</h4>
@@ -60,7 +67,7 @@ class Discussion extends React.Component {
         <p dangerouslySetInnerHTML={{__html: discussion.body}} />
         {comments}
         {commentForm}
-        {commentButton}
+        {this._renderCommentButton(discussion, showCommentForm)}
       </div>
     )
   }

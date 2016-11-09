@@ -17,7 +17,7 @@ class DiscussionsView extends React.Component {
           return (<li key={idx}>
             <Discussion discussion={dis} state={state}
               onLoadComments={()=>state.loadComments(state.currentView, dis)}
-              onComment={()=>state.composeComment(dis)}
+              showCommentForm={(show)=>state.composeComment(dis, show)}
               onCommentChange={(newVal)=>state.updateComment(dis, newVal)}
               onSendComment={()=>state.sendComment(dis)}
               onLoadReplies={(comment)=>state.loadReplies(state.currentView, comment)} />
