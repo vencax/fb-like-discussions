@@ -4,7 +4,7 @@ module.exports = {
     "title": "postek1",
     "body": "<p>Rerum velit quos est <strong>similique</strong>. Consectetur tempora eos ulla</p>",
     "views": 143,
-    "reply_count": 3,
+    "comment_count": 3,
     "created": "2012-08-06",
     "author": "gandalf@shire.nz",
     "category": "tech",
@@ -17,7 +17,7 @@ module.exports = {
     "title": "post2",
     "body": "<p>Rerum velit quos est <strong>p2</strong>. dfs tempora eos ulla</p>",
     "views": 3,
-    "reply_count": 0,
+    "comment_count": 0,
     "created": "2012-08-03",
     "author": "saruman@mordor.nz",
     "category": "magic",
@@ -30,7 +30,7 @@ module.exports = {
     "title": "post3",
     "body": "<p>Rerum velit quos est <strong>p3</strong>. dfs tempora eos ulla</p>",
     "views": 44,
-    "reply_count": 1,
+    "comment_count": 1,
     "created": "2012-04-03",
     "author": "gandalf@shire.nz",
     "category": "magic",
@@ -39,7 +39,7 @@ module.exports = {
       "webdev"
     ]
   }],
-  "replies": [{
+  "comments": [{
     "id": 1,
     "parent": 1,
     "rating": 1,
@@ -61,20 +61,20 @@ module.exports = {
     "body": "Ja sem Frodo pytlik, tralala.",
     "created": "2012-08-23"
   }],
-  "replyfeedbacks": [{
+  "commentfeedbacks": [{
     "id": 1,
     "uid": 3,
-    "replyid": 1,
+    "commentid": 1,
     "feedback": 1
   }, {
     "id": 2,
     "uid": 3,
-    "replyid": 2,
+    "commentid": 2,
     "feedback": 1
   }, {
     "id": 3,
     "uid": 33,
-    "replyid": 2,
+    "commentid": 2,
     "feedback": 1
   }]
 }

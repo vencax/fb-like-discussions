@@ -1,9 +1,9 @@
 import { action, extendObservable } from 'mobx'
-import RepliesStateInit from './replies'
+import CommentsStateInit from './comments'
 
 export default (BaseClass) => (
 
-  class DiscussionsState extends RepliesStateInit(BaseClass) {
+  class DiscussionsState extends CommentsStateInit(BaseClass) {
 
     loadDiscussions(state, opts = {}) {
       this.requester.getEntries('discussions', {
@@ -11,8 +11,8 @@ export default (BaseClass) => (
         perPage: opts.perPage || 10
       }).then((result) => {
         result.data.map((discussion) => {
-          discussion.replies = []
-          discussion.reply = null
+          discussion.comments = []
+          discussion.comment = null
         })
         extendObservable(state, {
           discussions: result.data,
@@ -20,7 +20,7 @@ export default (BaseClass) => (
         })
       })
     }
-    
+
   }
 
 )

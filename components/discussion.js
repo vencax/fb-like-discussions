@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import Reply from './reply'
+import Comment from './comment'
 
 @observer
 class Discussion extends React.Component {
@@ -8,47 +8,47 @@ class Discussion extends React.Component {
   static propTypes = {
     discussion: React.PropTypes.object.isRequired,
     state: React.PropTypes.object.isRequired,
-    onLoadReplies: React.PropTypes.func.isRequired,
-    onReply: React.PropTypes.func.isRequired,
-    onReplyChange: React.PropTypes.func.isRequired,
-    onSendReply: React.PropTypes.func.isRequired
+    onLoadComments: React.PropTypes.func.isRequired,
+    onComment: React.PropTypes.func.isRequired,
+    onCommentChange: React.PropTypes.func.isRequired,
+    onSendComment: React.PropTypes.func.isRequired
   }
 
-  renderReplies(replies) {
+  renderComments(comments) {
     const comparator = (a, b) => {
       return a.rating < b.rating
     }
     return (
       <div style={{marginLeft: '3em'}}>
-        { replies.sort(comparator).map((reply, idx) => {
-          return (<Reply key={idx} reply={reply} state={this.props.state} />)
+        { comments.sort(comparator).map((comment, idx) => {
+          return (<Comment key={idx} comment={comment} state={this.props.state} />)
         }) }
       </div>
     )
   }
 
-  renderReplyForm(discussion) {
-    const { onReplyChange, onSendReply } = this.props
+  renderCommentForm(discussion) {
+    const { onCommentChange, onSendComment } = this.props
     return (
-      <div className="replyform">
-        <textarea onChange={(e)=>onReplyChange(e.target.value)} value={discussion.reply} />
-        <button onClick={(e)=>onSendReply()}>send</button>
+      <div className="commentform">
+        <textarea onChange={(e)=>onCommentChange(e.target.value)} value={discussion.comment} />
+        <button onClick={(e)=>onSendComment()}>send</button>
       </div>
     )
   }
 
   render() {
-    const { discussion, state, onLoadReplies, onReply } = this.props
-    const replies = discussion.replies.length ? this.renderReplies(discussion.replies) : null
-    const loadButton = discussion.reply_count ? (
-      <button onClick={(e)=>onLoadReplies()}>
-        {discussion.reply_count} replies
+    const { discussion, state, onLoadComments, onComment } = this.props
+    const comments = discussion.comments.length ? this.renderComments(discussion.comments) : null
+    const loadButton = discussion.comment_count ? (
+      <button onClick={(e)=>onLoadComments()}>
+        {discussion.comment_count} comments
       </button>
     ) : null
-    const replyForm = discussion.reply !== null ?
-      this.renderReplyForm(discussion) : null
-    const replyButton = (discussion.reply_count === 0 || discussion.replies.length > 0) ?
-      (<button onClick={(e)=>onReply()}>reply</button>) : null
+    const commentForm = discussion.comment !== null ?
+      this.renderCommentForm(discussion) : null
+    const commentButton = (discussion.comment_count === 0 || discussion.comments.length > 0) ?
+      (<button onClick={(e)=>onComment()}>comment</button>) : null
     return (
       <div className="discussion">
         <h4>{discussion.title}</h4>
@@ -56,9 +56,9 @@ class Discussion extends React.Component {
           {discussion.created} | {discussion.author} | {loadButton}
         </p>
         <p dangerouslySetInnerHTML={{__html: discussion.body}} />
-        {replies}
-        {replyForm}
-        {replyButton}
+        {comments}
+        {commentForm}
+        {commentButton}
       </div>
     )
   }
