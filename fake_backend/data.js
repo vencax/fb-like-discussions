@@ -44,6 +44,7 @@ module.exports = {
     "parent": 1,
     "rating": 1,
     "author": "frodo@shire.nz",
+    "reply_count": 2,
     "body": "Queen, tossing 'If it had lost something; and she felt sure it.",
     "created": "2012-08-02"
   }, {
@@ -51,6 +52,7 @@ module.exports = {
     "parent": 1,
     "rating": 2,
     "author": "Sigurd O'Conner",
+    "reply_count": 1,
     "body": "I am very profi answer, that's because i have soo big rating",
     "created": "2012-07-02"
   }, {
@@ -76,5 +78,24 @@ module.exports = {
     "uid": 33,
     "commentid": 2,
     "feedback": 1
-  }]
+  }],
+  "replies": [{
+    "id": 1,
+    "commentid": 1,
+    "author": "frodo@shire.nz",
+    "body": "reply 1 on comment 1.",
+    "created": "2012-08-22"
+  }, {
+    "id": 2,
+    "commentid": 1,
+    "author": "Sigurd O'Conner",
+    "body": "reply 2 on comment 1.",
+    "created": "2012-09-02"
+  }, {
+    "id": 3,
+    "commentid": 2,
+    "author": "frodo@shire.nz",
+    "body": "reply 1 on comment 2",
+    "created": "2012-08-23"
+  }],
 }

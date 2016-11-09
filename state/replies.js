@@ -1,47 +1,44 @@
 import { action, extendObservable, transaction } from 'mobx'
-import ReplyFeedbacksStateInit from './replyfeedbacks'
 
-export default (BaseClass) => class RepliesState extends ReplyFeedbacksStateInit(BaseClass) {
+export default (BaseClass) => class RepliesState extends BaseClass {
 
-  @action loadReplies(state, discussion) {
-    if(state.shownDiscussion) {
-      state.shownDiscussion.replies = []  // delete current
+  @action loadReplies(state, comment) {
+    if(state.shownComment) {
+      state.shownComment.replies = []  // delete current
     }
     this.requester.getEntries('replies', {
-      filters: {parent: discussion.id},
+      filters: {commentid: comment.id},
       page: 1,
       perPage: 5
     })
     .then((result) => {
       transaction(() => {
-        result.data.map((i) => i.feedback = null)
-        discussion.replies = result.data
+        comment.replies = result.data
         extendObservable(state, {
-          shownDiscussion: discussion,
+          shownComment: comment,
           totalReplies: result.totalItems
         })
       })
-      this.loadReplyFeedbacks(discussion.replies)
     })
   }
 
-  @action composeReply(discussion) {
-    discussion.reply = ''
+  @action composeReply(comment) {
+    comment.reply = ''
   }
 
-  @action sendReply(discussion) {
+  @action sendReply(comment) {
     this.requester.saveEntry('replies', {
-      parent: discussion.id,
-      author: "frodo@shire.nz",
-      body: discussion.reply
+      commentid: comment.id,
+      author: this.getLoggedUserId(),
+      body: comment.reply
     }).then((data) => {
-      discussion.replies.push(data)
-      discussion.reply = null
+      comment.replies.push(data)
+      comment.reply = null
     })
   }
 
-  @action updateReply(discussion, val) {
-    discussion.reply = val
+  @action updateReply(comment, val) {
+    comment.reply = val
   }
 
 }

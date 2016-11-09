@@ -13,6 +13,10 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
       perPage: 5
     })
     .then((result) => {
+      result.data.map((comment) => {
+        comment.replies = []
+        comment.reply = null
+      })
       transaction(() => {
         result.data.map((i) => i.feedback = null)
         discussion.comments = result.data

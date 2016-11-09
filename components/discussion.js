@@ -11,7 +11,8 @@ class Discussion extends React.Component {
     onLoadComments: React.PropTypes.func.isRequired,
     onComment: React.PropTypes.func.isRequired,
     onCommentChange: React.PropTypes.func.isRequired,
-    onSendComment: React.PropTypes.func.isRequired
+    onSendComment: React.PropTypes.func.isRequired,
+    onLoadReplies: React.PropTypes.func.isRequired
   }
 
   renderComments(comments) {
@@ -20,9 +21,10 @@ class Discussion extends React.Component {
     }
     return (
       <div style={{marginLeft: '3em'}}>
-        { comments.sort(comparator).map((comment, idx) => {
-          return (<Comment key={idx} comment={comment} state={this.props.state} />)
-        }) }
+        { comments.sort(comparator).map((comment, idx) => (
+            <Comment key={idx} comment={comment} state={this.props.state}
+              onLoadReplies={this.props.onLoadReplies} />
+        )) }
       </div>
     )
   }

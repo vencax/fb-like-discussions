@@ -1,6 +1,7 @@
 import { action, extendObservable, transaction } from 'mobx'
+import RepliesStateInit from './replies'
 
-export default (BaseClass) => class CommentFeedbacksState extends BaseClass {
+export default (BaseClass) => class CommentFeedbacksState extends RepliesStateInit(BaseClass) {
 
   @action upvote(comment) {
     if(comment.feedback && comment.feedback.feedback === -1) {
