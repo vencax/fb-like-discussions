@@ -22,8 +22,8 @@ export default (BaseClass) => class RepliesState extends BaseClass {
     })
   }
 
-  @action composeReply(comment) {
-    comment.reply = ''
+  @action composeReply(comment, status = true) {
+    comment.reply = status ? '' : null
   }
 
   @action sendReply(comment) {
@@ -32,8 +32,10 @@ export default (BaseClass) => class RepliesState extends BaseClass {
       author: this.getLoggedUserId(),
       body: comment.reply
     }).then((data) => {
-      comment.replies.push(data)
-      comment.reply = null
+      transaction(() => {
+        comment.replies.push(data)
+        comment.reply = null
+      })
     })
   }
 

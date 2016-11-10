@@ -8,7 +8,10 @@ class Comment extends React.Component {
   static propTypes = {
     comment: React.PropTypes.object.isRequired,
     state: React.PropTypes.object.isRequired,
-    onLoadReplies: React.PropTypes.func.isRequired
+    onLoadReplies: React.PropTypes.func.isRequired,
+    showReplyForm: React.PropTypes.func.isRequired,
+    onReplyChange: React.PropTypes.func.isRequired,
+    onSendReply: React.PropTypes.func.isRequired
   }
 
   renderReplies(replies) {
@@ -21,8 +24,23 @@ class Comment extends React.Component {
     )
   }
 
+  renderReplyForm(comment) {
+    const { onReplyChange, onSendReply, showReplyForm } = this.props
+    const showButton = (comment.reply_count > 0 || comment.replies.length > 0) &&
+      comment.reply === null
+    return showButton ? (
+      <button onClick={(e)=>showReplyForm()}>reply</button>
+    ) : (
+      <div className="replyform">
+        <textarea onChange={(e)=>onReplyChange(e.target.value)} value={comment.reply} />
+        <button onClick={(e)=>onSendReply()}>send</button>
+        <button onClick={(e)=>showReplyForm(false)}>cancel</button>
+      </div>
+    )
+  }
+
   render() {
-    const { comment, state, onLoadReplies } = this.props
+    const { comment, state, onLoadReplies, showReplyForm } = this.props
     const replies = comment.replies.length ? this.renderReplies(comment.replies) : null
     const loadButton = comment.reply_count ? (
       <button onClick={(e)=>onLoadReplies(comment)}>
@@ -37,6 +55,7 @@ class Comment extends React.Component {
         </div>
         <p dangerouslySetInnerHTML={{__html: comment.body}} />
         {replies}
+        {this.renderReplyForm(comment)}
       </div>
     )
   }

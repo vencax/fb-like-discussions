@@ -59,6 +59,7 @@ module.exports = {
     "id": 3,
     "parent": 3,
     "rating": 4,
+    "reply_count": 0,
     "author": "frodo@shire.nz",
     "body": "Ja sem Frodo pytlik, tralala.",
     "created": "2012-08-23"

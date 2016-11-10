@@ -39,8 +39,10 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
       author: "frodo@shire.nz",
       body: discussion.comment
     }).then((data) => {
-      discussion.comments.push(data)
-      discussion.comment = null
+      transaction(() => {
+        discussion.comments.push(data)
+        discussion.comment = null
+      })
     })
   }
 

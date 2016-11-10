@@ -15,15 +15,18 @@ class Discussion extends React.Component {
     onLoadReplies: React.PropTypes.func.isRequired
   }
 
-  renderComments(comments) {
+  renderComments(comments, state) {
     const comparator = (a, b) => {
       return a.rating < b.rating
     }
     return (
       <div style={{marginLeft: '3em'}}>
         { comments.sort(comparator).map((comment, idx) => (
-            <Comment key={idx} comment={comment} state={this.props.state}
-              onLoadReplies={this.props.onLoadReplies} />
+            <Comment key={idx} comment={comment} state={state}
+              onLoadReplies={this.props.onLoadReplies}
+              showReplyForm={(show)=>state.composeReply(comment, show)}
+              onReplyChange={(newVal)=>state.updateReply(comment, newVal)}
+              onSendReply={()=>state.sendReply(comment)} />
         )) }
       </div>
     )
@@ -50,7 +53,7 @@ class Discussion extends React.Component {
 
   render() {
     const { discussion, state, onLoadComments, showCommentForm } = this.props
-    const comments = discussion.comments.length ? this.renderComments(discussion.comments) : null
+    const comments = discussion.comments.length ? this.renderComments(discussion.comments, state) : null
     const loadButton = discussion.comment_count ? (
       <button onClick={(e)=>onLoadComments()}>
         {discussion.comment_count} comments
