@@ -12,7 +12,7 @@ class DiscussionsView extends React.Component {
   render() {
     const { state } = this.props
     return state.currentView.discussions.length ? (
-      <ul>
+      <ul className="comments-list">
         { state.currentView.discussions.map((dis, idx) => {
           return (<li key={idx}>
             <Discussion discussion={dis} state={state}

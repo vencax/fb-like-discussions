@@ -11,12 +11,21 @@ export default class Reply extends React.Component {
   render() {
     const { reply, state } = this.props
     return (
-      <div>
-        <div className="replyHead">
-          {reply.author} | {reply.created}
+      <li>
+        <div className="comment-avatar">
+          <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt="" />
         </div>
-        <p dangerouslySetInnerHTML={{__html: reply.body}} />
-      </div>
+        <div className="comment-box">
+          <div className="comment-head">
+            <h6 className="comment-name">{reply.author}</h6>
+            <span>{reply.created}</span>
+          </div>
+
+          <div className="comment-content">
+            <p dangerouslySetInnerHTML={{__html: reply.body}} />
+          </div>
+        </div>
+      </li>
     )
   }
 

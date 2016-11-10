@@ -16,11 +16,11 @@ class Comment extends React.Component {
 
   renderReplies(replies) {
     return (
-      <div style={{marginLeft: '3em'}}>
+      <ul className="comments-list reply-list">
         { replies.map((reply, idx) => {
           return (<Reply key={idx} reply={reply} state={this.props.state} />)
         }) }
-      </div>
+      </ul>
     )
   }
 
@@ -33,8 +33,8 @@ class Comment extends React.Component {
     ) : (
       <div className="replyform">
         <textarea onChange={(e)=>onReplyChange(e.target.value)} value={comment.reply} />
-        <button onClick={(e)=>onSendReply()}>send</button>
-        <button onClick={(e)=>showReplyForm(false)}>cancel</button>
+        <button type="button" className="btn btn-sm" onClick={(e)=>onSendReply()}>send</button>
+        <button type="button" className="btn btn-sm" onClick={(e)=>showReplyForm(false)}>cancel</button>
       </div>
     )
   }
@@ -43,17 +43,26 @@ class Comment extends React.Component {
     const { comment, state, onLoadReplies, showReplyForm } = this.props
     const replies = comment.replies.length ? this.renderReplies(comment.replies) : null
     const loadButton = comment.reply_count ? (
-      <button onClick={(e)=>onLoadReplies(comment)}>
+      <button type="button" className="btn btn-primary btn-sm" onClick={(e)=>onLoadReplies(comment)}>
         {comment.reply_count} replies
       </button>
     ) : null
     return (
       <div>
-        <div className="commentHead">
-          {comment.author} | {comment.created} | rating: {comment.rating} <CommentFeedback {...this.props} />
-          {loadButton}
+        <div className="comment-main-level">
+          <div className="comment-avatar">
+            <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="" />
+          </div>
+          <div className="comment-box">
+            <div className="comment-head">
+              <h6 className="comment-name by-author">{comment.author}</h6>
+              <span>{comment.created} | rating: {comment.rating}</span> <CommentFeedback {...this.props} /> {loadButton}
+            </div>
+            <div className="comment-content">
+              <p dangerouslySetInnerHTML={{__html: comment.body}} />
+            </div>
+          </div>
         </div>
-        <p dangerouslySetInnerHTML={{__html: comment.body}} />
         {replies}
         {this.renderReplyForm(comment)}
       </div>
@@ -70,9 +79,9 @@ class CommentFeedback extends React.Component {
     const { comment, state } = this.props
     return (
       <div className="commentfeedback">
-        <button disabled={comment.feedback && comment.feedback.feedback === 1}
+        <button type="button" className="btn btn-sm" disabled={comment.feedback && comment.feedback.feedback === 1}
           onClick={(e)=>state.upvote(comment)}>upvote</button>
-        <button disabled={comment.feedback && comment.feedback.feedback === -1}
+        <button type="button" className="btn btn-sm" disabled={comment.feedback && comment.feedback.feedback === -1}
           onClick={(e)=>state.downvote(comment)}>downvote</button>
       </div>
     )

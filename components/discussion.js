@@ -20,15 +20,17 @@ class Discussion extends React.Component {
       return a.rating < b.rating
     }
     return (
-      <div style={{marginLeft: '3em'}}>
+      <ul className="comments-list">
         { comments.sort(comparator).map((comment, idx) => (
+          <li key={idx}>
             <Comment key={idx} comment={comment} state={state}
               onLoadReplies={this.props.onLoadReplies}
               showReplyForm={(show)=>state.composeReply(comment, show)}
               onReplyChange={(newVal)=>state.updateReply(comment, newVal)}
               onSendReply={()=>state.sendReply(comment)} />
+          </li>
         )) }
-      </div>
+      </ul>
     )
   }
 
