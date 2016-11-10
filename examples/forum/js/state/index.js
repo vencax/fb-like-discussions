@@ -11,6 +11,7 @@ export default class StateStore extends CommentsState {
     switch(viewName) {
       case 'login': return '/login'
       case 'discussions': return `/discussions`
+      case 'singlediscussion': return `/discussion/${this.currentView.discussionid}`
     }
   }
 
@@ -23,6 +24,14 @@ export default class StateStore extends CommentsState {
       discussions: []
     })
     this.loadDiscussions(this.currentView)
+  }
+
+  @action showDiscussion(id) {
+    this.initView('singlediscussion', {
+      discussion: null,
+      discussionid: id
+    })
+    this.loadDiscussion(this.currentView, id)
   }
 
   getLoggedUserId() {

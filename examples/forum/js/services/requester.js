@@ -45,6 +45,8 @@ class DataRequester {
       method: 'get',
       url: `${this.apiUrl}/${entityName}/${id}`,
       headers: this.authHeaders
+    }).then((response) => {
+      return response.data
     })
   }
 

@@ -13,6 +13,7 @@ export const App = observer( ({ state }) => {
 })
 
 import DiscussionsView from './pages/discussions'
+import SingleDiscussionView from './pages/discussionView'
 import LoginPage from './pages/login'
 
 function renderCurrentView(state) {
@@ -20,5 +21,6 @@ function renderCurrentView(state) {
   switch (viewName) {
     case 'login': return <LoginPage state={state} afterLogin={()=>store.showDiscussions()} />
     case 'discussions': return <DiscussionsView state={state} />
+    case 'singlediscussion': return <SingleDiscussionView state={state} />
   }
 }
