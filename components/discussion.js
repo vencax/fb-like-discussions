@@ -20,28 +20,28 @@ class Discussion extends React.Component {
       return a.rating < b.rating
     }
     return (
-      <ul className="comments-list">
+      <div className="comments-list">
         { comments.sort(comparator).map((comment, idx) => (
-          <li key={idx}>
-            <Comment key={idx} comment={comment} state={state}
-              onLoadReplies={this.props.onLoadReplies}
-              showReplyForm={(show)=>state.composeReply(comment, show)}
-              onReplyChange={(newVal)=>state.updateReply(comment, newVal)}
-              onSendReply={()=>state.sendReply(comment)} />
-          </li>
+          <Comment key={idx} comment={comment} state={state}
+            onLoadReplies={this.props.onLoadReplies}
+            showReplyForm={(show)=>state.composeReply(comment, show)}
+            onReplyChange={(newVal)=>state.updateReply(comment, newVal)}
+            onSendReply={()=>state.sendReply(comment)} />
         )) }
-      </ul>
+      </div>
     )
   }
 
   renderCommentForm(discussion) {
     const { onCommentChange, onSendComment, showCommentForm } = this.props
     return (
-      <div className="commentform">
-        <textarea onChange={(e)=>onCommentChange(e.target.value)} value={discussion.comment} />
-        <button onClick={(e)=>onSendComment()}>send</button>
-        <button onClick={(e)=>showCommentForm(false)}>cancel</button>
-      </div>
+      <form>
+        <div className="form-group">
+          <textarea className="form-control" onChange={(e)=>onCommentChange(e.target.value)} value={discussion.comment} />
+        </div>
+        <button type="button" className="btn btn-primary btn-sm" onClick={(e)=>onSendComment()}>send</button>
+        <button type="button" className="btn btn-secondary btn-sm" onClick={(e)=>showCommentForm(false)}>cancel</button>
+      </form>
     )
   }
 
@@ -49,14 +49,14 @@ class Discussion extends React.Component {
     const show = (discussion.comment_count === 0 || discussion.comments.length > 0) &&
       discussion.comment === null
     return show ? (
-      <button onClick={(e)=>showCommentForm()}>comment</button>
+      <button type="button" className="btn btn-primary btn-sm" onClick={(e)=>showCommentForm()}>comment</button>
     ) : null
   }
 
   render() {
     const { discussion, state, onLoadComments, showCommentForm } = this.props
     const comments = discussion.comments.length ? this.renderComments(discussion.comments, state) : null
-    const loadButton = discussion.comment_count ? (
+    const loadButton = discussion.comment_count > 0 && state.discussion != discussion ? (
       <button onClick={(e)=>onLoadComments()}>
         {discussion.comment_count} comments
       </button>

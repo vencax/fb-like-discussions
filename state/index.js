@@ -1,4 +1,4 @@
-import { action, extendObservable } from 'mobx'
+import { action, transaction, extendObservable } from 'mobx'
 import CommentsStateInit from './comments'
 
 export default (BaseClass) => (
@@ -23,9 +23,11 @@ export default (BaseClass) => (
 
     loadDiscussion(state, id) {
       this.requester.getEntry('discussions', id).then((discussion) => {
-        discussion.comments = []
-        discussion.comment = null
-        state.discussion = discussion
+        transaction(() => {
+          discussion.comments = []
+          discussion.comment = null
+          state.discussion = discussion
+        })
         this.loadComments(state, state.discussion)
       })
     }

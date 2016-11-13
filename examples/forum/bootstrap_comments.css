@@ -1,111 +1,9 @@
-.comments-list {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
 
- a {
- 	color: #03658c;
- 	text-decoration: none;
- }
-
-ul {
-	list-style-type: none;
-}
-
-
-/** ====================
- * Lista de Comentarios
- =======================*/
-.comments-container {
-  margin: 60px auto 15px;
-  width: 768px;
-}
-
-.comments-container h1 {
-	font-size: 36px;
-	color: #283035;
-	font-weight: 400;
-}
-
-.comments-container h1 a {
-	font-size: 18px;
-	font-weight: 700;
-}
-
-.comments-list {
-	margin-top: 30px;
-	position: relative;
-}
-
-/**
- * Lineas / Detalles
- -----------------------*/
-.comments-list:before {
-	content: '';
-	width: 2px;
-	height: 100%;
-	background: #c7cacb;
-	position: absolute;
-	left: 32px;
-	top: 0;
-}
-
-.comments-list:after {
-	content: '';
-	position: absolute;
-	background: #c7cacb;
-	bottom: 0;
-	left: 27px;
-	width: 7px;
-	height: 7px;
-	border: 3px solid #dee1e3;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	border-radius: 50%;
-}
-
-.reply-list:before, .reply-list:after {display: none;}
-.reply-list li:before {
-	content: '';
-	width: 60px;
-	height: 2px;
-	background: #c7cacb;
-	position: absolute;
-	top: 25px;
-	left: -55px;
-}
-
-
-.comments-list li {
-	margin-bottom: 15px;
-	display: block;
-	position: relative;
-}
-
-.comments-list li:after {
-	content: '';
-	display: block;
-	clear: both;
-	height: 0;
-	width: 0;
-}
-
-.reply-list {
-	padding-left: 88px;
-	clear: both;
-	margin-top: 15px;
-}
 
 /** ------------------      Avatar ---------------------------*/
-.comments-list .comment-avatar {
+.media-left img {
 	width: 65px;
 	height: 65px;
-	position: relative;
-	z-index: 99;
-	float: left;
 	border: 3px solid #FFF;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
@@ -113,7 +11,6 @@ ul {
 	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 	-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 	box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-	overflow: hidden;
 }
 
 .comments-list .comment-avatar img {
