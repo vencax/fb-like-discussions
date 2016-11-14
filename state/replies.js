@@ -6,7 +6,7 @@ export default (BaseClass) => class RepliesState extends BaseClass {
     if(state.shownComment) {
       state.shownComment.replies = []  // delete current
     }
-    this.requester.getEntries('replies', {
+    return this.requester.getEntries('replies', {
       filters: {commentid: comment.id},
       page: 1,
       perPage: 5
@@ -27,7 +27,7 @@ export default (BaseClass) => class RepliesState extends BaseClass {
   }
 
   @action sendReply(comment) {
-    this.requester.saveEntry('replies', {
+    this.requester.call('/replies', 'post', {
       commentid: comment.id,
       author: this.getLoggedUserId(),
       body: comment.reply
