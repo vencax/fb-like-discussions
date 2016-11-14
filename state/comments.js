@@ -36,7 +36,7 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
   @action sendComment(discussion) {
     this.requester.saveEntry('comments', {
       parent: discussion.id,
-      author: "frodo@shire.nz",
+      author: this.getLoggedUserId(),
       body: discussion.comment
     }).then((data) => {
       transaction(() => {
