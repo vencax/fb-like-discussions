@@ -5,12 +5,12 @@ export default (BaseClass) => class CommentFeedbacksState extends RepliesStateIn
 
   @action upvote(comment) {
     if(comment.feedback && comment.feedback.feedback === -1) {
-      this.requester.deleteEntry('commentfeedbacks', comment.feedback.id).then(() => {
+      return this.requester.deleteEntry('commentfeedbacks', comment.feedback.id).then(() => {
         comment.feedback = null
         comment.rating = comment.rating + 1
       })
     } else if(comment.feedback === null) {
-      this.requester.saveEntry('commentfeedbacks', {
+      return this.requester.saveEntry('commentfeedbacks', {
         feedback: 1,
         commentid: comment.id,
         uid: this.getLoggedUserId()
@@ -23,12 +23,12 @@ export default (BaseClass) => class CommentFeedbacksState extends RepliesStateIn
 
   @action downvote(comment) {
     if(comment.feedback && comment.feedback.feedback === 1) {
-      this.requester.deleteEntry('commentfeedbacks', comment.feedback.id).then(() => {
+      return this.requester.deleteEntry('commentfeedbacks', comment.feedback.id).then(() => {
         comment.feedback = null
         comment.rating = comment.rating - 1
       })
     } else if(comment.feedback === null) {
-      this.requester.saveEntry('commentfeedbacks', {
+      return this.requester.saveEntry('commentfeedbacks', {
         feedback: -1,
         commentid: comment.id,
         uid: this.getLoggedUserId()

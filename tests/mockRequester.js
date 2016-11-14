@@ -11,12 +11,16 @@ export default class MockRequester {
 
   getEntry(entityName, id, options={}) {
     return new Promise((resolve, reject) => {
+      this.id = id
+      this.entityName = entityName
       resolve(this.data)
     })
   }
 
   deleteEntry(entityName, id) {
     return new Promise((resolve, reject) => {
+      this.id = id
+      this.entityName = entityName
       resolve(this.data)
     })
   }
