@@ -1,30 +1,25 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 
-@observer
-class LoginView extends React.Component {
+const LoginView = ({state, afterLogin}) => {
 
-  static propTypes = {
-    state: React.PropTypes.object.isRequired,
-    afterLogin: React.PropTypes.func.isRequired
-  }
-
-  handleSubmit() {
-    this.submitted = true
-    return this.props.state.performLogin(toJS(this.credentials))
+  function handleSubmit() {
+    state.submitted = true
+    return state.performLogin(toJS(state.credentials))
     .then((user) => {
-      this.props.afterLogin()
+      afterLogin()
     })
     .catch((err)=>{
-      this.submitted = false
+      state.submitted = false
     })
   }
 
-  render() {
-    return (
-      <button onClick={()=>this.handleSubmit()}>login</button>
-    )
-  }
-
+  return (
+    <button onClick={()=>handleSubmit()}>login</button>
+  )
 }
-export default LoginView
+LoginView.propTypes = {
+  state: React.PropTypes.object.isRequired,
+  afterLogin: React.PropTypes.func.isRequired
+}
+export default observer(LoginView)
