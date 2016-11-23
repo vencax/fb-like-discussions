@@ -43,9 +43,9 @@ class Comment extends React.Component {
   render() {
     const { comment, state, onLoadReplies, showReplyForm } = this.props
     const replies = comment.replies.length ? this.renderReplies(comment) : null
-    const loadButton = comment.reply_count ? (
+    const loadButton = comment.reply_count > 0 && comment.replies.length === 0 ? (
       <button type="button" className="btn btn-primary btn-sm" onClick={(e)=>onLoadReplies(comment)}>
-        {comment.reply_count} replies
+        load
       </button>
     ) : null
     return (
@@ -55,9 +55,11 @@ class Comment extends React.Component {
         </div>
         <div className="media-body">
           <h6 className="media-heading">
-            {comment.author} <span>{comment.created} | rating: {comment.rating}</span> <CommentFeedback {...this.props} /> {loadButton}
+            {comment.author} <span>{comment.created}</span>
           </h6>
           <p dangerouslySetInnerHTML={{__html: comment.body}} />
+          <div><i className="fa fa-comments" aria-hidden="true"></i> {comment.reply_count} replies {loadButton}</div>
+          <CommentFeedback {...this.props} />
           {replies}
         </div>
       </div>
@@ -74,10 +76,16 @@ class CommentFeedback extends React.Component {
     const { comment, state } = this.props
     return (
       <span className="commentfeedback">
-        <button type="button" className="btn btn-sm" disabled={comment.feedback && comment.feedback.feedback === 1}
-          onClick={(e)=>state.upvote(comment)}>upvote</button>
+        <button type="button" className="btn btn-sm"
+          disabled={comment.feedback && comment.feedback.feedback === 1}
+          onClick={(e)=>state.upvote(comment)}>
+          {comment.upvotes} <i className="fa fa-thumbs-o-up"></i>
+        </button>
+
         <button type="button" className="btn btn-sm" disabled={comment.feedback && comment.feedback.feedback === -1}
-          onClick={(e)=>state.downvote(comment)}>downvote</button>
+          onClick={(e)=>state.downvote(comment)}>
+          {comment.downvotes} <i className="fa fa-thumbs-o-down"></i>
+        </button>
       </span>
     )
   }

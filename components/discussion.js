@@ -17,7 +17,7 @@ class Discussion extends React.Component {
 
   renderComments(comments, state) {
     const comparator = (a, b) => {
-      return a.rating < b.rating
+      return (a.upvotes - a.downvotes) < (b.upvotes - b.downvotes)
     }
     return (
       <div className="comments-list">
@@ -56,10 +56,8 @@ class Discussion extends React.Component {
   render() {
     const { discussion, state, onLoadComments, showCommentForm } = this.props
     const comments = discussion.comments.length ? this.renderComments(discussion.comments, state) : null
-    const loadButton = discussion.comment_count > 0 && state.discussion != discussion ? (
-      <button onClick={(e)=>onLoadComments()}>
-        {discussion.comment_count} comments
-      </button>
+    const loadButton = discussion.comments === null ? (
+      <button onClick={(e)=>onLoadComments()}>load</button>
     ) : null
     const commentForm = discussion.comment !== null ?
       this.renderCommentForm(discussion) : null
@@ -67,7 +65,7 @@ class Discussion extends React.Component {
       <div className="discussion">
         <h4>{discussion.title}</h4>
         <p>
-          {discussion.created} | {discussion.author} | {loadButton}
+          {discussion.created} | {discussion.author} | {discussion.comment_count} <i className="fa fa-comments" aria-hidden="true"></i> {loadButton}
         </p>
         <p dangerouslySetInnerHTML={{__html: discussion.body}} />
         {comments}

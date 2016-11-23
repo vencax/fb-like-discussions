@@ -42,7 +42,8 @@ module.exports = {
   "comments": [{
     "id": 1,
     "parent": 1,
-    "rating": 1,
+    "upvotes": 1,
+    "downvotes": 2,
     "author": "frodo@shire.nz",
     "reply_count": 2,
     "body": "Queen, tossing 'If it had lost something; and she felt sure it.",
@@ -50,7 +51,8 @@ module.exports = {
   }, {
     "id": 2,
     "parent": 1,
-    "rating": 2,
+    "upvotes": 2,
+    "downvotes": 2,
     "author": "Sigurd O'Conner",
     "reply_count": 1,
     "body": "I am very profi answer, that's because i have soo big rating",
@@ -58,7 +60,8 @@ module.exports = {
   }, {
     "id": 3,
     "parent": 3,
-    "rating": 4,
+    "upvotes": 3,
+    "downvotes": 2,
     "reply_count": 0,
     "author": "frodo@shire.nz",
     "body": "Ja sem Frodo pytlik, tralala.",
