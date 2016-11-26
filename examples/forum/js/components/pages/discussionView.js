@@ -7,11 +7,11 @@ const DiscussionView = ({ state }) => {
 
   return cv.discussion === null ? <span>loading</span> : (
     <Discussion discussion={cv.discussion} state={state}
-      onLoadComments={()=>state.loadComments(cv, cv.discussion)}
+      onLoadComments={(page=1)=>state.loadComments(cv, cv.discussion, page)}
       showCommentForm={(show)=>state.composeComment(cv.discussion, show)}
       onCommentChange={(newVal)=>state.updateComment(cv.discussion, newVal)}
       onSendComment={()=>state.sendComment(cv.discussion)}
-      onLoadReplies={(comment)=>state.loadReplies(cv, comment)}
+      onLoadReplies={(comment, page=1)=>state.loadReplies(cv, comment, page)}
     />
   )
 }

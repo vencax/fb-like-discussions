@@ -2,6 +2,21 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import Reply from './reply'
 
+const Pagination = ({comment, onLoadReplies}) => {
+  const showPrev = (comment.page > 1) &&
+    (comment.totalReplies > comment.perPage)
+  const lastPage = Math.round(comment.totalReplies / comment.perPage)
+  const showNext = (comment.page < lastPage)
+  return (
+    <div>
+      {showPrev ? <button type="button" className="btn btn-sm"
+        onClick={(e)=>onLoadReplies(comment, comment.page - 1)}>prev</button> : null}
+      {showNext ? <button type="button" className="btn btn-sm"
+        onClick={(e)=>onLoadReplies(comment, comment.page + 1)}>next</button> : null}
+    </div>
+  )
+}
+
 Comment = ({
   comment, state,
   onLoadReplies, onReplyChange, onSendReply, showReplyForm
@@ -48,6 +63,7 @@ Comment = ({
         <div><i className="fa fa-comments" aria-hidden="true"></i> {comment.reply_count} replies {loadButton}</div>
         <CommentFeedback comment={comment} state={state} />
         {replies}
+        <Pagination comment={comment} onLoadReplies={onLoadReplies} />
       </div>
     </div>
   )

@@ -3,14 +3,13 @@ import CommentFeedbacksStateInit from './commentfeedbacks'
 
 export default (BaseClass) => class CommentsState extends CommentFeedbacksStateInit(BaseClass) {
 
-  @action loadComments(state, discussion) {
+  @action loadComments(state, discussion, page = 1) {
+    const perPage = this.commentPageSize || 10
     if(state.shownDiscussion) {
       state.shownDiscussion.comments = []  // delete current
     }
     this.requester.getEntries('comments', {
-      filters: {parent: discussion.id},
-      page: 1,
-      perPage: 5
+      filters: {parent: discussion.id}, page, perPage
     })
     .then((result) => {
       result.data.map((comment) => {
@@ -20,9 +19,9 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
       transaction(() => {
         result.data.map((i) => i.feedback = null)
         discussion.comments = result.data
-        extendObservable(state, {
-          shownDiscussion: discussion,
-          totalComments: result.totalItems
+        extendObservable(state, {shownDiscussion: discussion})
+        extendObservable(discussion, {
+          totalComments: result.totalItems, page, perPage
         })
       })
       this.loadCommentFeedbacks(discussion.comments)

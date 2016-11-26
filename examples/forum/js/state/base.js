@@ -4,6 +4,8 @@ export default class BaseState {
 
   constructor(requester) {
     this.requester = requester
+    this.commentPageSize = 2
+    this.replyPageSize = 2
   }
 
   @observable currentView = null

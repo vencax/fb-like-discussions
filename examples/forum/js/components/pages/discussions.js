@@ -8,11 +8,11 @@ const DiscussionsView = ({ state }) => (
       { state.currentView.discussions.map((dis, idx) => {
         return (<li key={idx}>
           <Discussion discussion={dis} state={state}
-            onLoadComments={()=>state.loadComments(state.currentView, dis)}
+            onLoadComments={(page=1)=>state.loadComments(state.currentView, dis, page)}
             showCommentForm={(show)=>state.composeComment(dis, show)}
             onCommentChange={(newVal)=>state.updateComment(dis, newVal)}
             onSendComment={()=>state.sendComment(dis)}
-            onLoadReplies={(comment)=>state.loadReplies(state.currentView, comment)} />
+            onLoadReplies={(comment, page)=>state.loadReplies(state.currentView, comment, page)} />
         </li>)
       })}
     </ul>

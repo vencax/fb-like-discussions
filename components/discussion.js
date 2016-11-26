@@ -2,6 +2,21 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import Comment from './comment'
 
+const Pagination = ({discussion, onLoadComments}) => {
+  const showPrev = (discussion.page > 1) &&
+    (discussion.totalComments > discussion.perPage)
+  const lastPage = Math.round(discussion.totalComments / discussion.perPage)
+  const showNext = (discussion.page < lastPage)
+  return (
+    <div>
+      {showPrev ? <button type="button" className="btn btn-sm"
+        onClick={(e)=>onLoadComments(discussion.page - 1)}>prev</button> : null}
+      {showNext ? <button type="button" className="btn btn-sm"
+        onClick={(e)=>onLoadComments(discussion.page + 1)}>next</button> : null}
+    </div>
+  )
+}
+
 const Discussion = ({
   discussion, state, onLoadComments, onLoadReplies,
   onCommentChange, onSendComment, showCommentForm
@@ -48,6 +63,7 @@ const Discussion = ({
       </p>
       <p dangerouslySetInnerHTML={{__html: discussion.body}} />
       {comments}
+      <Pagination discussion={discussion} onLoadComments={onLoadComments} />
       {commentForm}
       {commentButton}
     </div>

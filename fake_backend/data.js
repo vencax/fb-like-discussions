@@ -58,6 +58,15 @@ module.exports = {
     "body": "I am very profi answer, that's because i have soo big rating",
     "created": "2012-07-02"
   }, {
+    "id": 4,
+    "parent": 1,
+    "upvotes": 0,
+    "downvotes": 0,
+    "author": 1,
+    "reply_count": 0,
+    "body": "fdsafaerfawv, flefhjakwhfakl.",
+    "created": "2012-08-02"
+  }, {
     "id": 3,
     "parent": 3,
     "upvotes": 3,
@@ -95,6 +104,12 @@ module.exports = {
     "author": "Sigurd O'Conner",
     "body": "reply 2 on comment 1.",
     "created": "2012-09-02"
+  }, {
+    "id": 4,
+    "commentid": 1,
+    "author": 1,
+    "body": "reply 3 on comment 1.",
+    "created": "2012-10-02"
   }, {
     "id": 3,
     "commentid": 2,

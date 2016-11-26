@@ -2,21 +2,20 @@ import { action, extendObservable, transaction } from 'mobx'
 
 export default (BaseClass) => class RepliesState extends BaseClass {
 
-  @action loadReplies(state, comment) {
+  @action loadReplies(state, comment, page = 1) {
+    const perPage = this.replyPageSize || 20
     if(state.shownComment) {
       state.shownComment.replies = []  // delete current
     }
     return this.requester.getEntries('replies', {
-      filters: {commentid: comment.id},
-      page: 1,
-      perPage: 5
+      filters: {commentid: comment.id}, page, perPage
     })
     .then((result) => {
       transaction(() => {
+        extendObservable(state, {shownComment: comment})
         comment.replies = result.data
-        extendObservable(state, {
-          shownComment: comment,
-          totalReplies: result.totalItems
+        extendObservable(comment, {
+          totalReplies: result.totalItems, page, perPage
         })
       })
     })
