@@ -21,7 +21,8 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
         discussion.comments = result.data
         extendObservable(state, {shownDiscussion: discussion})
         extendObservable(discussion, {
-          totalComments: result.totalItems, page, perPage
+          totalComments: result.totalItems, page, perPage,
+          lastPage: Math.round(result.totalItems / perPage)
         })
       })
       this.loadCommentFeedbacks(discussion.comments)
@@ -39,6 +40,7 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
       body: discussion.comment
     }).then((data) => {
       transaction(() => {
+        data.replies = []
         discussion.comments.push(data)
         discussion.comment = null
       })

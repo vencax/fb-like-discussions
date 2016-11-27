@@ -15,7 +15,8 @@ export default (BaseClass) => class RepliesState extends BaseClass {
         extendObservable(state, {shownComment: comment})
         comment.replies = result.data
         extendObservable(comment, {
-          totalReplies: result.totalItems, page, perPage
+          totalReplies: result.totalItems, page, perPage,
+          lastPage: Math.round(result.totalItems / perPage)
         })
       })
     })
@@ -26,7 +27,7 @@ export default (BaseClass) => class RepliesState extends BaseClass {
   }
 
   @action sendReply(comment) {
-    this.requester.call('/replies', 'post', {
+    this.requester.saveEntry('replies', {
       commentid: comment.id,
       author: this.getLoggedUserId(),
       body: comment.reply

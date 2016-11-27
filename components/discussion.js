@@ -5,8 +5,7 @@ import Comment from './comment'
 const Pagination = ({discussion, onLoadComments}) => {
   const showPrev = (discussion.page > 1) &&
     (discussion.totalComments > discussion.perPage)
-  const lastPage = Math.round(discussion.totalComments / discussion.perPage)
-  const showNext = (discussion.page < lastPage)
+  const showNext = (discussion.page < discussion.lastPage)
   return (
     <div className="pull-right">
       {showPrev ? <button type="button" className="btn btn-sm"

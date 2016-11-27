@@ -5,8 +5,7 @@ import Reply from './reply'
 const Pagination = ({comment, onLoadReplies}) => {
   const showPrev = (comment.page > 1) &&
     (comment.totalReplies > comment.perPage)
-  const lastPage = Math.round(comment.totalReplies / comment.perPage)
-  const showNext = (comment.page < lastPage)
+  const showNext = (comment.page < comment.lastPage)
   return (
     <div className="pull-right">
       {showPrev ? <button type="button" className="btn btn-sm"
@@ -23,20 +22,22 @@ Comment = ({
 }) => {
 
   function renderReplyForm() {
-    const showButton = (comment.reply_count > 0 || comment.replies.length > 0) &&
-      comment.reply === null
-    return showButton ? (
-      <button type="button" className="btn btn-primary btn-sm" onClick={(e)=>showReplyForm()}>reply</button>
-    ) : (
-      <form>
-        <div className="form-group">
-          <textarea className="form-control"
-            onChange={(e)=>onReplyChange(e.target.value)} value={comment.reply} />
-        </div>
-        <button type="button" className="btn btn-primary btn-sm" onClick={(e)=>onSendReply()}>send</button>
-        <button type="button" className="btn btn-secondary btn-sm" onClick={(e)=>showReplyForm(false)}>cancel</button>
-      </form>
-    )
+    if(comment.page && comment.page === comment.lastPage && comment.reply === null) {
+      return (
+        <button type="button" className="btn btn-primary btn-sm" onClick={(e)=>showReplyForm()}>reply</button>
+      )
+    }
+    if(comment.reply !== null) {
+      return (
+        <form>
+          <div className="form-group">
+            <textarea className="form-control"
+              onChange={(e)=>onReplyChange(e.target.value)} value={comment.reply} />
+          </div>
+          <button type="button" className="btn btn-primary btn-sm" onClick={(e)=>onSendReply()}>send</button>
+        </form>
+      )
+    }
   }
 
   function _onLoadRepliesClick(e) {
