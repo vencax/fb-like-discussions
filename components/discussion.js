@@ -8,7 +8,7 @@ const Pagination = ({discussion, onLoadComments}) => {
   const lastPage = Math.round(discussion.totalComments / discussion.perPage)
   const showNext = (discussion.page < lastPage)
   return (
-    <div>
+    <div className="pull-right">
       {showPrev ? <button type="button" className="btn btn-sm"
         onClick={(e)=>onLoadComments(discussion.page - 1)}>prev</button> : null}
       {showNext ? <button type="button" className="btn btn-sm"
@@ -63,6 +63,7 @@ const Discussion = ({
       </p>
       <p dangerouslySetInnerHTML={{__html: discussion.body}} />
       {comments}
+      <hr />
       <Pagination discussion={discussion} onLoadComments={onLoadComments} />
       {commentForm}
       {commentButton}

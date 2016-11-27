@@ -8,7 +8,7 @@ const Pagination = ({comment, onLoadReplies}) => {
   const lastPage = Math.round(comment.totalReplies / comment.perPage)
   const showNext = (comment.page < lastPage)
   return (
-    <div>
+    <div className="pull-right">
       {showPrev ? <button type="button" className="btn btn-sm"
         onClick={(e)=>onLoadReplies(comment, comment.page - 1)}>prev</button> : null}
       {showNext ? <button type="button" className="btn btn-sm"
@@ -28,27 +28,34 @@ Comment = ({
     return showButton ? (
       <button type="button" className="btn btn-primary btn-sm" onClick={(e)=>showReplyForm()}>reply</button>
     ) : (
-      <div className="replyform">
-        <textarea onChange={(e)=>onReplyChange(e.target.value)} value={comment.reply} />
-        <button type="button" className="btn btn-sm" onClick={(e)=>onSendReply()}>send</button>
-        <button type="button" className="btn btn-sm" onClick={(e)=>showReplyForm(false)}>cancel</button>
-      </div>
+      <form>
+        <div className="form-group">
+          <textarea className="form-control"
+            onChange={(e)=>onReplyChange(e.target.value)} value={comment.reply} />
+        </div>
+        <button type="button" className="btn btn-primary btn-sm" onClick={(e)=>onSendReply()}>send</button>
+        <button type="button" className="btn btn-secondary btn-sm" onClick={(e)=>showReplyForm(false)}>cancel</button>
+      </form>
     )
   }
 
-  const replies = comment.replies.length ? (
-    <div>
+  function _onLoadRepliesClick(e) {
+    e.preventDefault()
+    onLoadReplies(comment)
+  }
+
+  const replies = comment.reply_count > 0 && comment.replies.length === 0 ? (
+    <a href="#" onClick={_onLoadRepliesClick}>
+      <i className="fa fa-comments" aria-hidden="true"></i> {comment.reply_count} replies ..
+    </a>
+  ) : (
+    <div style={{clear: 'both'}}>
       { comment.replies.map((reply, idx) => {
         return (<Reply key={idx} reply={reply} state={state} />)
       }) }
       {renderReplyForm()}
     </div>
-  ) : null
-  const loadButton = comment.reply_count > 0 && comment.replies.length === 0 ? (
-    <button type="button" className="btn btn-primary btn-sm" onClick={(e)=>onLoadReplies(comment)}>
-      load
-    </button>
-  ) : null
+  )
 
   return (
     <div className="media">
@@ -60,9 +67,9 @@ Comment = ({
           {comment.author} <span>{comment.created}</span>
         </h6>
         <p dangerouslySetInnerHTML={{__html: comment.body}} />
-        <div><i className="fa fa-comments" aria-hidden="true"></i> {comment.reply_count} replies {loadButton}</div>
         <CommentFeedback comment={comment} state={state} />
         {replies}
+        <hr />
         <Pagination comment={comment} onLoadReplies={onLoadReplies} />
       </div>
     </div>
@@ -80,7 +87,7 @@ export default observer(Comment)
 
 const _CommentFeedback = ({ comment, state }) => {
   return (
-    <span className="commentfeedback">
+    <div className="btn-group commentfeedback pull-right" role="group">
       <button type="button" className="btn btn-sm"
         disabled={comment.feedback && comment.feedback.feedback === 1}
         onClick={(e)=>state.upvote(comment)}>
@@ -92,7 +99,7 @@ const _CommentFeedback = ({ comment, state }) => {
         onClick={(e)=>state.downvote(comment)}>
         {comment.downvotes} <i className="fa fa-thumbs-o-down"></i>
       </button>
-    </span>
+    </div>
   )
 }
 const CommentFeedback = observer(_CommentFeedback)
