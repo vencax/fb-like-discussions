@@ -73,8 +73,7 @@ test('it should be possible to compose and send reply', t => {
 
   setTimeout(() => {
     t.equal(state.currentView.comment.reply, null)  // shall reset reply
-    t.equal(state.requester.url, '/replies')   // and call requester with approp params
-    t.equal(state.requester.method, 'post')
+    t.equal(state.requester.entityName, 'replies', 'req with approp entityName')
     t.deepEqual(state.requester.data, {
       commentid: state.currentView.comment.id,
       author: 111,

@@ -27,10 +27,10 @@ export default class MockRequester {
 
   saveEntry(entityName, data, id=null) {
     return new Promise((resolve, reject) => {
-      this.data = data
+      this.data = Object.assign({}, data)
       this.id = id
       this.entityName = entityName
-      resolve(this.data)
+      resolve(data)
     })
   }
 
@@ -38,7 +38,7 @@ export default class MockRequester {
     return new Promise((resolve, reject) => {
       this.url = url
       this.method = method
-      this.data = data
+      this.data = Object.assign({}, data)
       resolve(this.data)
     })
   }
