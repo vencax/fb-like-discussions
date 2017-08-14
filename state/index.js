@@ -1,15 +1,12 @@
-import { action, transaction, extendObservable } from 'mobx'
+import { action, extendObservable } from 'mobx'
 import CommentsStateInit from './comments'
 
 export default (BaseClass) => (
 
   class DiscussionsState extends CommentsStateInit(BaseClass) {
 
-    loadDiscussions(state, opts = {}) {
-      this.requester.getEntries('discussions', {
-        page: opts.page || 1,
-        perPage: opts.perPage || 10
-      }).then((result) => {
+    loadDiscussions (state, opts = {}) {
+      return this.requester.getDiscussions(opts).then((result) => {
         result.data.map((discussion) => {
           discussion.comments = []
           discussion.comment = null
@@ -21,15 +18,14 @@ export default (BaseClass) => (
       })
     }
 
-    loadDiscussion(state, id) {
-      this.requester.getEntry('discussions', id).then((discussion) => {
-        transaction(() => {
-          discussion.comments = []
-          discussion.comment = null
-          state.discussion = discussion
-        })
+    loadDiscussion (state, id, opts = {}) {
+      const _onDone = action('onDiscussionLoaded', (discussion) => {
+        discussion.comments = []
+        discussion.comment = null
+        state.discussion = discussion
         this.loadComments(state, state.discussion)
       })
+      return this.requester.getDiscussion(id).then(_onDone)
     }
 
   }

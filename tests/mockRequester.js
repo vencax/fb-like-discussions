@@ -1,5 +1,6 @@
+import DiscussRequesterInit from '../examples/forum/js/services/discuss'
 
-export default class MockRequester {
+class MockRequester {
 
   data = null
 
@@ -49,3 +50,5 @@ export default class MockRequester {
     })
   }
 }
+
+export default DiscussRequesterInit(MockRequester)

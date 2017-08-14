@@ -7,9 +7,7 @@ export default (BaseClass) => class RepliesState extends BaseClass {
     if(state.shownComment) {
       state.shownComment.replies = []  // delete current
     }
-    return this.requester.getEntries('replies', {
-      filters: {commentid: comment.id}, page, perPage
-    })
+    return this.requester.getReplies(comment.id, {page, perPage})
     .then((result) => {
       transaction(() => {
         extendObservable(state, {shownComment: comment})
@@ -27,11 +25,7 @@ export default (BaseClass) => class RepliesState extends BaseClass {
   }
 
   @action sendReply(comment) {
-    this.requester.saveEntry('replies', {
-      commentid: comment.id,
-      author: this.getLoggedUserId(),
-      body: comment.reply
-    }).then((data) => {
+    this.requester.postReply(comment).then((data) => {
       transaction(() => {
         comment.replies.push(data)
         comment.reply = null

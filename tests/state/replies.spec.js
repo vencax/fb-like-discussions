@@ -11,9 +11,6 @@ class BaseState {
   @observable currentView = {
     comment: comment
   }
-  getLoggedUserId() {
-    return 111
-  }
 }
 const State = TestStateInit(BaseState)
 

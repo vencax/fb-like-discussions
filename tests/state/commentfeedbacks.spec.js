@@ -7,9 +7,6 @@ class BaseState {
   constructor(comment) {
     this.currentView = observable({comments: [comment]})
   }
-  getLoggedUserId() {
-    return 111
-  }
 }
 const State = TestStateInit(BaseState)
 

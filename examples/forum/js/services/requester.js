@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { convertQuery, getTotalItems } from './api_flavor'
+import DiscussRequesterInit from './discuss'
 
 class DataRequester {
 
@@ -88,6 +89,48 @@ class DataRequester {
   callExternalRes(conf) {   // just to be able to call external API
     return axios(conf)
   }
+
+  getDiscussions (opts) {
+    const qpars = {
+      page: opts.page || 1,
+      perPage: opts.perPage || 10
+    }
+    return axios({
+      method: 'get',
+      url: `${this.apiUrl}/discussions`,
+      headers: this.authHeaders
+    })
+  }
+
+  getDiscussion (id) {
+    const qpars = {
+      page: opts.page || 1,
+      perPage: opts.perPage || 10
+    }
+    return axios({
+      method: 'get',
+      url: `${this.apiUrl}/discussions`,
+      headers: this.authHeaders
+    })
+  }
+
+  getComments (discussionID, opts = {page: 1}) {
+    return this.getEntries('comments', Object.assign({}, {
+      filters: {parent: discussionID},
+      perPage: this.commentPageSize || 10
+    }, opts))
+  }
+
+  postComment (data) {
+    return this.saveEntry('comments', data)
+  }
+
+  getReplies (commentID, opts = {page: 1}) {
+    return this.getEntries('replies', Object.assign({}, {
+      filters: {commentid: commentID},
+      perPage: this.replyPageSize || 10
+    }, opts))
+  }
 }
 
-export default DataRequester
+export default DiscussRequesterInit(DataRequester)

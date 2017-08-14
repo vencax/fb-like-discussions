@@ -8,22 +8,18 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
     if(state.shownDiscussion) {
       state.shownDiscussion.comments = []  // delete current
     }
-    this.requester.getEntries('comments', {
-      filters: {parent: discussion.id}, page, perPage
-    })
+    this.requester.getComments(discussion.id, {page, perPage})
     .then((result) => {
       result.data.map((comment) => {
         comment.replies = []
         comment.reply = null
+        comment.feedback = null
       })
-      transaction(() => {
-        result.data.map((i) => i.feedback = null)
-        discussion.comments = result.data
-        extendObservable(state, {shownDiscussion: discussion})
-        extendObservable(discussion, {
-          totalComments: result.totalItems, page, perPage,
-          lastPage: Math.round(result.totalItems / perPage)
-        })
+      discussion.comments = result.data
+      extendObservable(state, {shownDiscussion: discussion})
+      extendObservable(discussion, {
+        totalComments: result.totalItems, page, perPage,
+        lastPage: Math.round(result.totalItems / perPage)
       })
       this.loadCommentFeedbacks(discussion.comments)
     })
@@ -34,11 +30,7 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
   }
 
   @action sendComment(discussion) {
-    this.requester.saveEntry('comments', {
-      parent: discussion.id,
-      author: this.getLoggedUserId(),
-      body: discussion.comment
-    }).then((data) => {
+    this.requester.postComment(discussion).then((data) => {
       transaction(() => {
         data.replies = []
         discussion.comments.push(data)
