@@ -1,9 +1,10 @@
-import { action, extendObservable, transaction } from 'mobx'
+import { action, extendObservable } from 'mobx'
 import RepliesStateInit from './replies'
 
 export default (BaseClass) => class CommentFeedbacksState extends RepliesStateInit(BaseClass) {
 
-  @action upvote(comment) {
+  @action
+  upvote(comment) {
     if(comment.feedback && comment.feedback.feedback === -1) {
       // delete previous downvote
       return this.requester.deleteCommentFeedback(comment).then(() => {
@@ -19,7 +20,8 @@ export default (BaseClass) => class CommentFeedbacksState extends RepliesStateIn
     }
   }
 
-  @action downvote(comment) {
+  @action
+  downvote(comment) {
     if(comment.feedback && comment.feedback.feedback === 1) {
       // delete previous upvote
       return this.requester.deleteCommentFeedback(comment).then(() => {
@@ -37,11 +39,12 @@ export default (BaseClass) => class CommentFeedbacksState extends RepliesStateIn
 
   loadCommentFeedbacks(comments) {
     comments.map((comment) => {
-      this.requester.getFeedback(comment).then((result) => {
+      const _onDone = action('onFeedbackLoaded', (result) => {
         if(result.data.length > 0) {
           comment.feedback = result.data[0]
         }
       })
+      this.requester.getFeedback(comment).then(_onDone)
     })
   }
 
