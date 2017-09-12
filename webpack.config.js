@@ -24,7 +24,7 @@ module.exports = {
   plugins: debug ? [] : [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
+    new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false})
   ],
   // NOTE: needed coz' import like from a separate project are used in example
   // e.g.: import DataRequester from 'react-mobx-admin/services/requester'

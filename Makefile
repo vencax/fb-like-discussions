@@ -10,4 +10,11 @@ mock-server:
 	@node ./fake_backend/index.js &
 
 test:
-	@NODE_ENV=test ./node_modules/.bin/tape -r babel-register -r ./tests/setup.js ./**/*.spec.js
+	@NODE_ENV=test ./node_modules/.bin/tape \
+		-r babel-register -r ./tests/setup.js \
+		./tests/**/*.spec.js
+
+testwatch:
+	@NODE_ENV=test ./node_modules/.bin/tape --watch \
+		-r babel-register -r ./tests/setup.js \
+		./tests/**/*.spec.js
