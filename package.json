@@ -1,6 +1,6 @@
 {
-  "name": "fb-similar-discussions",
-  "version": "0.0.3",
+  "name": "fb-like-discussions",
+  "version": "0.0.4",
   "description": "post->comments->reply facebook like discussions",
   "main": "index.js",
   "keywords": [
@@ -10,7 +10,7 @@
     "forum"
   ],
   "author": "vencax <vencax77@gmail.com>",
-  "repository": "https://github.com/vencax/fb-similar-discussions",
+  "repository": "https://github.com/vencax/fb-like-discussions",
   "license": "ISC",
   "devDependencies": {
     "axios": "^0.14.0",
