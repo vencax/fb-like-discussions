@@ -1,20 +1,22 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const Reply = ({ reply, state }) => (
-  <div className="media">
-    <div className="media-left">
-      <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt="" />
+const Reply = ({reply, Gravatar, Heading}) => (
+  <div className='media'>
+    <div className='media-left'>
+      <Gravatar user={reply.author} />
     </div>
-    <div className="media-body">
-      <h6 className="media-heading">
-        {reply.author} <span>{reply.created}</span>
+    <div className='media-body'>
+      <h6 className='media-heading'>
+        <Heading record={reply} />
       </h6>
       <p dangerouslySetInnerHTML={{__html: reply.body}} />
     </div>
   </div>
 )
 Reply.propTypes = {
-  reply: React.PropTypes.object.isRequired,
-  state: React.PropTypes.object.isRequired
+  reply: PropTypes.object.isRequired,
+  Gravatar: PropTypes.func,
+  Heading: PropTypes.func
 }
 export default Reply
