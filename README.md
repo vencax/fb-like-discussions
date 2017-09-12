@@ -1,6 +1,6 @@
 # fb-similar-discussions
 
-[![Build Status](https://travis-ci.org/vencax/fb-similar-discussions.svg)](https://travis-ci.org/vencax/fb-similar-discussions)
+[![Build Status](https://travis-ci.org/vencax/fb-like-discussions.svg)](https://travis-ci.org/vencax/fb-like-discussions)
 
 Implements facebook like comments that are grouped into discussions.
 Particular comments can be up/down voted (similar to [stackoverflow](http://stackoverflow.com/)).
@@ -17,7 +17,7 @@ It is raw ES6 lib, so you need bundler with transpiling (webpack with babel load
 Try it by yourself:
 
 ```sh
-git clone https://github.com/vencax/fb-similar-discussions fbsd
+git clone https://github.com/vencax/fb-like-discussions fbsd
 cd fbsd
 npm i
 make run
