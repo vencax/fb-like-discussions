@@ -1,4 +1,4 @@
-import { observable, computed, toJS, action, asMap } from 'mobx'
+import { observable, computed, toJS, action } from 'mobx'
 import BaseState from './base'
 import CommentsStateInit from 'fb-like-comments/state'
 

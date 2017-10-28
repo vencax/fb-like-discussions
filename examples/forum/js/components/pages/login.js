@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 
 const LoginView = ({state, afterLogin}) => {
@@ -19,7 +20,7 @@ const LoginView = ({state, afterLogin}) => {
   )
 }
 LoginView.propTypes = {
-  state: React.PropTypes.object.isRequired,
-  afterLogin: React.PropTypes.func.isRequired
+  state: PropTypes.object.isRequired,
+  afterLogin: PropTypes.func.isRequired
 }
 export default observer(LoginView)
