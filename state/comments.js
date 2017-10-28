@@ -3,8 +3,7 @@ import CommentFeedbacksStateInit from './commentfeedbacks'
 
 export default (BaseClass) => class CommentsState extends CommentFeedbacksStateInit(BaseClass) {
 
-  @action loadComments(state, discussion, page = 1) {
-    const perPage = this.commentPageSize || 10
+  @action loadComments(state, discussion, page = 1, perPage = 10) {
     if(state.shownDiscussion) {
       state.shownDiscussion.comments = []  // delete current
     }
@@ -18,7 +17,8 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
       extendObservable(state, {shownDiscussion: discussion})
       extendObservable(discussion, {
         totalComments: result.totalItems, page, perPage,
-        lastPage: Math.round(result.totalItems / perPage)
+        lastPage: Math.round(result.totalItems / perPage),
+        page, perPage
       })
       this.loadCommentFeedbacks(discussion.comments)
     })
