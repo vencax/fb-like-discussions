@@ -47,7 +47,7 @@ const Comment = ({
     onLoadReplies(comment)
   }
 
-  const replies = comment.reply_count > 0 && comment.replies.length === 0 ? (
+  const replies = comment.reply_count > 0 && comment.replies === null ? (
     <a href='#' onClick={_onLoadRepliesClick}>
       <i className='fa fa-comments' aria-hidden='true'></i> {comment.reply_count} replies ..
     </a>
@@ -63,13 +63,13 @@ const Comment = ({
   return (
     <div className='media'>
       <div className='media-left'>
-        <Gravatar user={comment.author} />
+        <Gravatar user={comment.uid} />
       </div>
       <div className='media-body'>
         <h6 className='media-heading'>
           <Heading record={comment} />
         </h6>
-        <p dangerouslySetInnerHTML={{__html: comment.body}} />
+        <p dangerouslySetInnerHTML={{__html: comment.content}} />
         <CommentFeedback comment={comment} state={state} />
         {replies}
         <hr />
@@ -94,13 +94,13 @@ const _CommentFeedback = ({ comment, state }) => {
   return (
     <div className='btn-group commentfeedback pull-right' role='group'>
       <button type='button' className='btn btn-sm'
-        disabled={comment.feedback && comment.feedback.feedback === 1}
+        disabled={comment.feedback && comment.feedback.value === 1}
         onClick={(e) => state.upvote(comment)}>
         {comment.upvotes} <i className='fa fa-thumbs-o-up'></i>
       </button>
 
       <button type='button' className='btn btn-sm'
-        disabled={comment.feedback && comment.feedback.feedback === -1}
+        disabled={comment.feedback && comment.feedback.value === -1}
         onClick={(e) => state.downvote(comment)}>
         {comment.downvotes} <i className='fa fa-thumbs-o-down'></i>
       </button>

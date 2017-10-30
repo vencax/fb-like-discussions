@@ -27,8 +27,7 @@ const Discussion = ({
     return (a.upvotes - a.downvotes) < (b.upvotes - b.downvotes)
   }
 
-  const showCommentButton = (discussion.comment_count === 0 || discussion.comments.length > 0) &&
-    discussion.comment === null
+  const showCommentButton = discussion.comment === null
   const commentButton = showCommentButton ? (
     <button type='button' className='btn btn-primary btn-sm' onClick={(e) => showCommentForm()}>comment</button>
   ) : null

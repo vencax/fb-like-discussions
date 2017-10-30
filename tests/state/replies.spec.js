@@ -25,14 +25,14 @@ test('it should be possible to loadReplies', t => {
   state.requester.data = [{
     "id": 1,
     "commentid": 1,
-    "author": "frodo@shire.nz",
-    "body": "reply 1 on comment 1.",
+    "uid": "frodo@shire.nz",
+    "content": "reply 1 on comment 1.",
     "created": "2012-08-22"
   }, {
     "id": 2,
     "commentid": 1,
-    "author": "Sigurd O'Conner",
-    "body": "reply 2 on comment 1.",
+    "uid": "Sigurd O'Conner",
+    "content": "reply 2 on comment 1.",
     "created": "2012-09-02"
   }]
 
@@ -40,8 +40,8 @@ test('it should be possible to loadReplies', t => {
 
   setTimeout(() => {
     t.equal(state.currentView.comment.replies.length, 2)
-    t.equal(state.currentView.comment.replies[0].body, 'reply 1 on comment 1.')
-    t.equal(state.currentView.comment.replies[1].body, 'reply 2 on comment 1.')
+    t.equal(state.currentView.comment.replies[0].content, 'reply 1 on comment 1.')
+    t.equal(state.currentView.comment.replies[1].content, 'reply 2 on comment 1.')
     t.end()
   }, 500)
 })
@@ -72,9 +72,9 @@ test('it should be possible to compose and send reply', t => {
     t.equal(state.currentView.comment.reply, null)  // shall reset reply
     t.equal(state.requester.entityName, 'replies', 'req with approp entityName')
     t.deepEqual(state.requester.data, {
+      uid: 111,
       commentid: state.currentView.comment.id,
-      author: 111,
-      body: 'frodo is about to leave'
+      content: 'frodo is about to leave'
     })
     t.equal(state.currentView.comment.replies.length, 1)
     t.ok(state.currentView.comment.replies.map !== undefined, 'comment.replies is observable')

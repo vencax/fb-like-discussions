@@ -6,12 +6,13 @@ export default (BaseClass) => class RepliesState extends BaseClass {
   loadReplies(state, comment, page = 1) {
     const perPage = this.replyPageSize || 20
     if(state.shownComment) {
-      state.shownComment.replies = []  // delete current
+      state.shownComment.replies = null  // delete current
+      state.shownComment.lastPage = null
     }
     const _onDone = action('onRepliesLoaded', (result) => {
       extendObservable(state, {shownComment: comment})
-      comment.replies = result.data
       extendObservable(comment, {
+        replies: result.data,
         totalReplies: result.totalItems, page, perPage,
         lastPage: Math.round(result.totalItems / perPage)
       })

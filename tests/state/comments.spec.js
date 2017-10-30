@@ -19,7 +19,7 @@ test('it should be possible to loadComments', t => {
     rating: 1,
     author: "frodo@shire.nz",
     reply_count: 2,
-    body: "Queen, tossing 'If it had lost something; and she felt sure it.",
+    content: "Queen, tossing 'If it had lost something; and she felt sure it.",
     created: "2012-08-02"
   }]
   state.loadComments(state.currentView, state.currentView.discussion)
@@ -54,8 +54,8 @@ test('it should be possible to compose and send comment', t => {
     t.equal(state.requester.entityName, 'comments', 'req with approp entityName')
     t.deepEqual(state.requester.data, {
       parent: state.currentView.discussion.id,
-      author: 111,
-      body: 'ring fellowship has appeared'
+      content: 'ring fellowship has appeared',
+      uid: 111
     }, 'req with approp data')
     t.equal(state.currentView.discussion.comments.length, 2)
     t.ok(state.currentView.discussion.comments.map !== undefined, 'discussion.comments is observable')

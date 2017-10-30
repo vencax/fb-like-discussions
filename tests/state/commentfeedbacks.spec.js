@@ -18,10 +18,10 @@ function _createState(comment) {
 
 test('it should be possible to loadCommentFeedbacks', t => {
   const state = _createState({id: 1, upvotes: 1, downvotes: 1})
-  state.requester.data = [{id: 1, uid: 3, commentid: 1, feedback: 1}]
+  state.requester.data = [{id: 1, uid: 3, commentid: 1, value: 1}]
   state.loadCommentFeedbacks(state.currentView.comments)
   setTimeout(() => {
-    t.equal(state.currentView.comments[0].feedback.feedback, 1)
+    t.equal(state.currentView.comments[0].feedback.value, 1)
     t.end()
   }, 500)
 })
@@ -39,7 +39,7 @@ test('it should be possible to upvote comment', t => {
     t.equal(state.currentView.comments[0].downvotes, 0, 'downvotes not changed')
     t.equal(state.requester.entityName, 'commentfeedbacks', 'right entityName')
     t.deepEqual(state.requester.data, {
-      feedback: 1,
+      value: 1,
       commentid: state.currentView.comments[0].id,
       uid: 111
     }, 'req with approp data')
@@ -50,13 +50,13 @@ test('it should be possible to upvote comment', t => {
 
 test('it must NOT be possible to upvote already upvoted comment', t => {
   const state = _createState({id: 1, upvotes: 0, downvotes: 0, feedback: {
-    feedback: 1,
+    value: 1,
     commentid: 1,
     uid: 111
   }})
   let changes = []
   autorun(() => changes.push(toJS(state.currentView.comments[0])))
-  t.equal(state.currentView.comments[0].feedback.feedback, 1)
+  t.equal(state.currentView.comments[0].feedback.value, 1)
 
   state.upvote(state.currentView.comments[0]) // perform action
 
@@ -82,7 +82,7 @@ test('it should be possible to downvote comment', t => {
     t.equal(state.currentView.comments[0].downvotes, 1, 'downvotes increased')
     t.equal(state.requester.entityName, 'commentfeedbacks', 'right entityName')
     t.deepEqual(state.requester.data, {
-      feedback: -1,
+      value: -1,
       commentid: state.currentView.comments[0].id,
       uid: 111
     }, 'req with approp data')
@@ -93,13 +93,13 @@ test('it should be possible to downvote comment', t => {
 
 test('it must NOT be possible to downvote already downvoted comment', t => {
   const state = _createState({id: 1, upvotes: 0, downvotes: 0, feedback: {
-    feedback: -1,
+    value: -1,
     commentid: 1,
     uid: 111
   }})
   let changes = []
   autorun(() => changes.push(toJS(state.currentView.comments[0])))
-  t.equal(state.currentView.comments[0].feedback.feedback, -1)
+  t.equal(state.currentView.comments[0].feedback.value, -1)
 
   state.downvote(state.currentView.comments[0]) // perform action
 
