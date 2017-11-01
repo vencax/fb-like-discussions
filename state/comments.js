@@ -30,9 +30,11 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
   }
 
   @action sendComment(discussion) {
-    const _onDone = action('onCommentSaved', (data) => {
-      data.replies = []
-      discussion.comments.push(data)
+    const _onDone = action('onCommentSaved', (newitem) => {
+      newitem.replies = null
+      newitem.reply = null
+      newitem.feedback = null
+      discussion.comments.push(newitem)
       discussion.comment = null
     })
     this.requester.postComment(discussion).then(_onDone)

@@ -26,9 +26,18 @@ export default (BaseClass) => class RepliesState extends BaseClass {
   }
 
   @action
-  sendReply(comment) {
+  sendReply(state, comment) {
     const _onDone = action('onReplySaved', (data) => {
-      comment.replies.push(data)
+      if (comment.replies === null) {
+        extendObservable(state, {shownComment: comment})
+        extendObservable(comment, {
+          replies: [data],
+          totalReplies: 1, page: 1, perPage: this.replyPageSize || 20,
+          lastPage: 1
+        })
+      } else {
+        comment.replies.push(data)
+      }
       comment.reply = null
     })
     this.requester.postReply(comment).then(_onDone)

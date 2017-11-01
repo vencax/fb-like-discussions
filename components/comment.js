@@ -24,12 +24,13 @@ const Comment = ({
 }) => {
   //
   function renderReplyForm () {
-    if (comment.page && comment.page === comment.lastPage && comment.reply === null) {
-      return (
-        <button type='button' className='btn btn-primary btn-sm' onClick={(e) => showReplyForm()}>reply</button>
-      )
-    }
-    if (comment.reply !== null) {
+    if (comment.reply === null) {
+      if (comment.reply_count === 0 || (comment.page && comment.page === comment.lastPage)) {
+        return (
+          <button type='button' className='btn btn-primary btn-sm' onClick={(e) => showReplyForm()}>reply</button>
+        )
+      }
+    } else {
       return (
         <form>
           <div className='form-group'>
@@ -37,6 +38,7 @@ const Comment = ({
               onChange={(e) => onReplyChange(e.target.value)} value={comment.reply} />
           </div>
           <button type='button' className='btn btn-primary btn-sm' onClick={(e) => onSendReply()}>send</button>
+          <button type='button' className='btn btn-secondary btn-sm' onClick={(e) => showReplyForm(false)}>cancel</button>
         </form>
       )
     }
@@ -53,10 +55,14 @@ const Comment = ({
     </a>
   ) : (
     <div style={{clear: 'both'}}>
-      { comment.replies.map((reply, idx) => {
-        return (<Reply key={idx} reply={reply} Gravatar={Gravatar} Heading={Heading} />)
-      }) }
-      {renderReplyForm()}
+      {
+        comment.replies && comment.replies.map((reply, idx) => {
+          return (<Reply key={idx} reply={reply} Gravatar={Gravatar} Heading={Heading} />)
+        })
+      }
+      {
+        renderReplyForm()
+      }
     </div>
   )
 

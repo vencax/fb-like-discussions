@@ -39,7 +39,7 @@ const Discussion = ({
           onLoadReplies={onLoadReplies}
           showReplyForm={(show) => state.composeReply(comment, show)}
           onReplyChange={(newVal) => state.updateReply(comment, newVal)}
-          onSendReply={() => state.sendReply(comment)}
+          onSendReply={() => state.sendReply(discussion, comment)}
           Gravatar={Gravatar} Heading={Heading} />
       )) }
     </div>
