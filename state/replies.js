@@ -39,6 +39,7 @@ export default (BaseClass) => class RepliesState extends BaseClass {
         comment.replies.push(data)
       }
       comment.reply = null
+      comment.reply_count += 1
     })
     this.requester.postReply(comment).then(_onDone)
   }
