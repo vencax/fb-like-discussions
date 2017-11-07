@@ -36,6 +36,7 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
       newitem.feedback = null
       discussion.comments.push(newitem)
       discussion.comment = null
+      discussion.comment_count += 1
     })
     this.requester.postComment(discussion).then(_onDone)
   }
