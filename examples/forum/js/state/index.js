@@ -15,14 +15,22 @@ export default class StateStore extends CommentsState {
     }
   }
 
+  @action loadComments(state, discussion, opts = {page: 1, perPage: 10}) {
+    this.requester.getEntries(`comments`, {parent: 1})
+    .then(this.onCommentsLoaded(state, discussion, opts))
+  }
+
   @action showLogin() {
     this.initView('login')
   }
 
   @action showDiscussions() {
     this.initView('discussions', {
-      discussions: []
+      discussions: [],
+      shownDiscussion: null
     })
+    state.shownDiscussion.comments = []  // delete current
+    state.shownDiscussion = discussion
     this.loadDiscussions(this.currentView)
   }
 
