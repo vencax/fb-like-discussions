@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Reply = ({reply, Gravatar, Heading}) => (
+export const Reply = ({reply, Gravatar, Heading}) => (
   <div className='media'>
     <div className='media-left'>
       <Gravatar user={reply.uid} />
@@ -19,4 +19,18 @@ Reply.propTypes = {
   Gravatar: PropTypes.func,
   Heading: PropTypes.func
 }
-export default Reply
+
+// -----------------------------------------------------------------------------
+
+export const ReplyForm = ({comment, onChange, onSend, onCancel}) => {
+  return (
+    <form>
+      <div className='form-group'>
+        <textarea className='form-control'
+          onChange={(e) => onChange(e.target.value)} value={comment.value} />
+      </div>
+      <button type='button' className='btn btn-primary btn-sm' onClick={(e) => onSend()}>send</button>
+      <button type='button' className='btn btn-secondary btn-sm' onClick={(e) => onCancel(false)}>cancel</button>
+    </form>
+  )
+}

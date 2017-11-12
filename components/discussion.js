@@ -20,14 +20,14 @@ const Pagination = ({discussion, onLoadComments}) => {
 const Discussion = ({
   discussion, state, onLoadComments, onLoadReplies,
   onCommentChange, onSendComment, showCommentForm,
-  Gravatar, Heading
+  Gravatar, Heading, enabled = true
 }) => {
   //
   const comparator = (a, b) => {
     return (a.upvotes - a.downvotes) < (b.upvotes - b.downvotes)
   }
 
-  const showCommentButton = discussion.comment === null
+  const showCommentButton = enabled && discussion.comment === null
   const commentButton = showCommentButton ? (
     <button type='button' className='btn btn-primary btn-sm' onClick={(e) => showCommentForm()}>comment</button>
   ) : null
@@ -40,11 +40,11 @@ const Discussion = ({
           showReplyForm={(show) => state.composeReply(comment, show)}
           onReplyChange={(newVal) => state.updateReply(comment, newVal)}
           onSendReply={() => state.sendReply(discussion, comment)}
-          Gravatar={Gravatar} Heading={Heading} />
+          Gravatar={Gravatar} Heading={Heading} enabled={enabled} />
       )) }
     </div>
   ) : null
-  const commentForm = discussion.comment !== null ? (
+  const commentForm = enabled && discussion.comment !== null ? (
     <form>
       <div className='form-group'>
         <textarea className='form-control' onChange={(e) => onCommentChange(e.target.value)} value={discussion.comment} />

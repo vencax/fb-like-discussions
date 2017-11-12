@@ -8,7 +8,7 @@ const DefaultGravatar = ({user}) => (
 )
 
 const DefaultHeading = ({record}) => (
-  <span>{record.author} <span>{record.created}</span></span>
+  <span><b>{record.author}</b> </span>
 )
 
 const DiscussionView = ({ state }) => {
@@ -33,6 +33,7 @@ const DiscussionView = ({ state }) => {
         onSendComment={()=>state.sendComment(discussion)}
         onLoadReplies={(comment, page=1)=>state.loadReplies(cv, comment, page)}
         Gravatar={DefaultGravatar} Heading={DefaultHeading}
+        enabled={discussion.id === 1}
       />
     </div>
   )
