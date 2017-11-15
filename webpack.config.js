@@ -34,10 +34,11 @@ module.exports = {
     }
   },
   externals: {
-    'axios': 'axios'
-    // 'mobx': 'mobx',
-    // 'mobx-react': 'mobxReact',
-    // 'react': 'React',
-    // 'react-dom': 'ReactDOM'
+    'axios': 'axios',
+    'mobx': 'mobx',
+    'mobx-react': 'mobxReact',
+    'react': 'React',
+    'react-dom': 'ReactDOM',
+    'history': 'history'
   }
 }
