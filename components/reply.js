@@ -1,16 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export const Reply = ({reply, Gravatar, Heading}) => (
-  <div className='media'>
+export const Reply = ({reply, onReply, Gravatar, Heading}) => (
+  <div className='media reply'>
     <div className='media-left'>
       <Gravatar user={reply.uid} />
     </div>
     <div className='media-body'>
-      <h6 className='media-heading'>
+      <span className='media-heading'>
         <Heading record={reply} />
-      </h6>
-      <p dangerouslySetInnerHTML={{__html: reply.content}} />
+      </span>
+      <span dangerouslySetInnerHTML={{__html: reply.content}} />
+      <div className='toolbar'>
+        <ReplyButton onClick={onReply} /> · <span>{reply.created}</span>
+      </div>
     </div>
   </div>
 )
@@ -22,15 +25,26 @@ Reply.propTypes = {
 
 // -----------------------------------------------------------------------------
 
-export const ReplyForm = ({comment, onChange, onSend, onCancel}) => {
+export const ReplyForm = ({comment, onChange, onSend, Gravatar}) => {
   return (
-    <form>
-      <div className='form-group'>
-        <textarea className='form-control'
-          onChange={(e) => onChange(e.target.value)} value={comment.value} />
+    <div className='media reply'>
+      <div className='media-left'>
+        <Gravatar user={null} />
       </div>
-      <button type='button' className='btn btn-primary btn-sm' onClick={(e) => onSend()}>send</button>
-      <button type='button' className='btn btn-secondary btn-sm' onClick={(e) => onCancel(false)}>cancel</button>
-    </form>
+      <div className='media-body'>
+        <form>
+          <div className='form-group'>
+            <textarea className='form-control'
+              onChange={(e) => onChange(e.target.value)} value={comment.reply} />
+          </div>
+          <button type='button' className='btn btn-primary btn-sm' onClick={(e) => onSend()}>send</button>
+        </form>
+      </div>
+    </div>
   )
 }
+
+export const ReplyButton = ({onClick}) => (
+  <button type='button' className='btn btn-primary btn-sm'
+    onClick={(e) => onClick()}>reply</button>
+)

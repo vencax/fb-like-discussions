@@ -125,11 +125,8 @@ class DataRequester {
     return this.saveEntry('comments', data)
   }
 
-  getReplies (commentID, opts = {page: 1}) {
-    return this.getEntries('replies', Object.assign({}, {
-      filters: {commentid: commentID},
-      perPage: this.replyPageSize || 10
-    }, opts))
+  getReplies (commentID) {
+    return this.getEntries('replies', {filters: {commentid: commentID}})
   }
 }
 

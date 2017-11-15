@@ -1,25 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
-import {Reply, ReplyForm} from './reply'
-
-const Pagination = ({comment, onLoadReplies}) => {
-  const showPrev = (comment.page > 1) &&
-    (comment.totalReplies > comment.perPage)
-  const showNext = (comment.page < comment.lastPage)
-  return (
-    <span className='comment-pagination'>
-      {showPrev ? <button type='button' className='btn btn-sm'
-        onClick={(e) => onLoadReplies(comment, comment.page - 1)}>prev</button> : null}
-      {showNext ? <button type='button' className='btn btn-sm'
-        onClick={(e) => onLoadReplies(comment, comment.page + 1)}>next</button> : null}
-    </span>
-  )
-}
+import {Reply, ReplyForm, ReplyButton} from './reply'
 
 const Comment = ({
   comment, state,
-  onLoadReplies, onReplyChange, onSendReply, showReplyForm,
+  onLoadReplies, onReplyChange, onReply, onSendReply,
   Gravatar, Heading, enabled = true
 }) => {
   //
@@ -34,9 +20,8 @@ const Comment = ({
       <i className='fa fa-comments' aria-hidden='true'></i> {comment.reply_count} replies ..
     </a>
   ) : null
-  const replyButton = enabled && comment.reply_count === 0 ? (
-    <span><button type='button' className='btn btn-primary btn-sm'
-      onClick={(e) => showReplyForm()}>reply</button> · </span>
+  const replyButton = enabled && comment.reply_count === 0 && comment.reply === null ? (
+    <span><ReplyButton onClick={() => onReply(comment, null)} /> · </span>
   ) : null
 
   return (
@@ -50,21 +35,18 @@ const Comment = ({
         </span>
         <span dangerouslySetInnerHTML={{__html: comment.content}} />
         <div className='toolbar'>
-          <div className='pull-right'>
-            <Pagination comment={comment} onLoadReplies={onLoadReplies} />
-          </div>
           {replyButton}{feedback} · <span>{comment.created}</span> · {loadreplies}
         </div>
         <div className='replies' style={{clear: 'both'}}>
           {
-            comment.replies && comment.replies.map((reply, idx) => {
-              return (<Reply key={idx} reply={reply} Gravatar={Gravatar} Heading={Heading} />)
-            })
+            comment.replies && comment.replies.map((reply, idx) => (
+              <Reply key={idx} reply={reply} Gravatar={Gravatar} Heading={Heading}
+                onReply={() => onReply(comment, reply)} />
+            ))
           }
           {
             enabled && comment.reply !== null ? (
-              <ReplyForm comment={comment} onChange={onReplyChange}
-                onSend={onSendReply} onCancel={showReplyForm} />
+              <ReplyForm comment={comment} onChange={onReplyChange} onSend={onSendReply} Gravatar={Gravatar} />
             ) : null
           }
         </div>
@@ -76,7 +58,7 @@ Comment.propTypes = {
   comment: PropTypes.object.isRequired,
   state: PropTypes.object.isRequired,
   onLoadReplies: PropTypes.func.isRequired,
-  showReplyForm: PropTypes.func.isRequired,
+  onReply: PropTypes.func.isRequired,
   onReplyChange: PropTypes.func.isRequired,
   onSendReply: PropTypes.func.isRequired,
   Gravatar: PropTypes.func,

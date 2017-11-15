@@ -3,26 +3,24 @@ import { action, extendObservable } from 'mobx'
 export default (BaseClass) => class RepliesState extends BaseClass {
 
   @action
-  loadReplies(state, comment, page = 1) {
-    const perPage = this.replyPageSize || 20
+  loadReplies(state, comment) {
     if(state.shownComment) {
       state.shownComment.replies = null  // delete current
-      state.shownComment.lastPage = null
+      state.shownComment.reply = null
     }
     const _onDone = action('onRepliesLoaded', (result) => {
       extendObservable(state, {shownComment: comment})
+      comment.reply = ''
       extendObservable(comment, {
-        replies: result.data,
-        totalReplies: result.totalItems, page, perPage,
-        lastPage: Math.round(result.totalItems / perPage)
+        replies: result.data
       })
     })
-    return this.requester.getReplies(comment.id, {page, perPage}).then(_onDone)
+    return this.requester.getReplies(comment.id).then(_onDone)
   }
 
   @action
-  composeReply(comment, status = true) {
-    comment.reply = status ? '' : null
+  onReply(comment, reply) {
+    comment.reply = reply === null ? '' : reply.uid.toString()
   }
 
   @action
@@ -31,14 +29,12 @@ export default (BaseClass) => class RepliesState extends BaseClass {
       if (comment.replies === null) {
         extendObservable(state, {shownComment: comment})
         extendObservable(comment, {
-          replies: [data],
-          totalReplies: 1, page: 1, perPage: this.replyPageSize || 20,
-          lastPage: 1
+          replies: [data]
         })
       } else {
         comment.replies.push(data)
       }
-      comment.reply = null
+      comment.reply = ''
       comment.reply_count += 1
     })
     this.requester.postReply(comment).then(_onDone)

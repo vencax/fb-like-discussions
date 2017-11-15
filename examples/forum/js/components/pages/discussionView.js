@@ -8,7 +8,7 @@ const DefaultGravatar = ({user}) => (
 )
 
 const DefaultHeading = ({record}) => (
-  <span><b>{record.author}</b> </span>
+  <span><b>AuthorID{record.uid}</b> </span>
 )
 
 const DiscussionView = ({ state }) => {
@@ -27,11 +27,11 @@ const DiscussionView = ({ state }) => {
       </p>
       <p dangerouslySetInnerHTML={{__html: discussion.body}} />
       <Discussion discussion={discussion} state={state}
-        onLoadComments={(page=1)=>state.loadComments(cv, discussion, page)}
-        showCommentForm={(show)=>state.composeComment(discussion, show)}
+        onLoadComments={(page=1) => state.loadComments(cv, discussion, {page, perPage: 2})}
         onCommentChange={(newVal)=>state.updateComment(discussion, newVal)}
         onSendComment={()=>state.sendComment(discussion)}
         onLoadReplies={(comment, page=1)=>state.loadReplies(cv, comment, page)}
+        onReply={state.onReply}
         Gravatar={DefaultGravatar} Heading={DefaultHeading}
         enabled={discussion.id === 1}
       />

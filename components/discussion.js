@@ -18,7 +18,7 @@ const Pagination = ({discussion, onLoadComments}) => {
 }
 
 const Discussion = ({
-  discussion, state, onLoadComments, onLoadReplies,
+  discussion, state, onLoadComments, onLoadReplies, onReply,
   onCommentChange, onSendComment, showCommentForm,
   Gravatar, Heading, enabled = true
 }) => {
@@ -27,39 +27,38 @@ const Discussion = ({
     return (a.upvotes - a.downvotes) < (b.upvotes - b.downvotes)
   }
 
-  const showCommentButton = enabled && discussion.comment === null
-  const commentButton = showCommentButton ? (
-    <button type='button' className='btn btn-primary btn-sm' onClick={(e) => showCommentForm()}>comment</button>
+  const commentForm = enabled && discussion.page === discussion.lastPage ? (
+    <div className='media'>
+      <div className='media-left'>
+        <Gravatar user={null} />
+      </div>
+      <div className='media-body'>
+        <form>
+          <div className='form-group'>
+            <textarea className='form-control' onChange={(e) => onCommentChange(e.target.value)} value={discussion.comment} />
+          </div>
+          <button type='button' className='btn btn-primary btn-sm' onClick={(e) => onSendComment()}>send</button>
+        </form>
+      </div>
+    </div>
   ) : null
-
   const comments = discussion.comments.length ? (
     <div className='comments-list'>
       { discussion.comments.sort(comparator).map((comment, idx) => (
         <Comment key={idx} comment={comment} state={state}
-          onLoadReplies={onLoadReplies}
-          showReplyForm={(show) => state.composeReply(comment, show)}
+          onLoadReplies={onLoadReplies} onReply={onReply}
           onReplyChange={(newVal) => state.updateReply(comment, newVal)}
           onSendReply={() => state.sendReply(discussion, comment)}
           Gravatar={Gravatar} Heading={Heading} enabled={enabled} />
       )) }
+      {commentForm}
     </div>
-  ) : null
-  const commentForm = enabled && discussion.comment !== null ? (
-    <form>
-      <div className='form-group'>
-        <textarea className='form-control' onChange={(e) => onCommentChange(e.target.value)} value={discussion.comment} />
-      </div>
-      <button type='button' className='btn btn-primary btn-sm' onClick={(e) => onSendComment()}>send</button>
-      <button type='button' className='btn btn-secondary btn-sm' onClick={(e) => showCommentForm(false)}>cancel</button>
-    </form>
   ) : null
   return (
     <div className='discussion'>
       {comments}
       <hr />
       <Pagination discussion={discussion} onLoadComments={onLoadComments} />
-      {commentForm}
-      {commentButton}
     </div>
   )
 }
@@ -67,7 +66,7 @@ Discussion.propTypes = {
   discussion: PropTypes.object.isRequired,
   state: PropTypes.object.isRequired,
   onLoadComments: PropTypes.func.isRequired,
-  showCommentForm: PropTypes.func.isRequired,
+  onReply: PropTypes.func.isRequired,
   onCommentChange: PropTypes.func.isRequired,
   onSendComment: PropTypes.func.isRequired,
   onLoadReplies: PropTypes.func.isRequired,

@@ -25,17 +25,13 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
     this.requester.getComments(discussion.id, opts).then(_onDone)
   }
 
-  @action composeComment(discussion, status = true) {
-    discussion.comment = status ? '' : null
-  }
-
   @action sendComment(discussion) {
     const _onDone = action('onCommentSaved', (newitem) => {
       newitem.replies = null
       newitem.reply = null
       newitem.feedback = null
       discussion.comments.push(newitem)
-      discussion.comment = null
+      discussion.comment = ''
       discussion.comment_count += 1
     })
     this.requester.postComment(discussion).then(_onDone)

@@ -21,7 +21,7 @@ export default (BaseClass) => (
     loadDiscussion (state, id, opts = {}) {
       const _onDone = action('onDiscussionLoaded', (discussion) => {
         discussion.comments = []
-        discussion.comment = null
+        discussion.comment = ''
         state.discussion = discussion
         this.loadComments(state, state.discussion, {page: 1, perPage: this.commentPageSize})
       })
