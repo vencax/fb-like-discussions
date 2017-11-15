@@ -46,23 +46,11 @@ test('it should be possible to loadReplies', t => {
   }, 500)
 })
 
-test('it should be possible to start compose and cancel reply', t => {
-  const state = _createState()
-  // start compose reply
-  state.composeReply(state.currentView.comment)
-  t.equal(state.currentView.comment.reply, '')
-  // cancel composing
-  state.composeReply(state.currentView.comment, false)
-  t.equal(state.currentView.comment.reply, null)
-  t.end()
-})
-
 test('it should be possible to compose and send reply', t => {
   const state = _createState()
   let changes = []
   state.requester.data = []
   state.loadReplies(state.currentView, state.currentView.comment)
-  state.composeReply(state.currentView.comment)
   state.updateReply(state.currentView.comment, 'frodo is about to leave')
 
   autorun(() => changes.push(toJS(state.currentView.comment)))

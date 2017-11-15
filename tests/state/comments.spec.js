@@ -31,26 +31,15 @@ test('it should be possible to loadComments', t => {
   }, 500)
 })
 
-test('it should be possible to start compose and cancel comment', t => {
-  // start compose reply
-  state.composeComment(state.currentView.discussion)
-  t.equal(state.currentView.discussion.comment, '')
-  // cancel composing
-  state.composeComment(state.currentView.discussion, false)
-  t.equal(state.currentView.discussion.comment, null)
-  t.end()
-})
-
 test('it should be possible to compose and send comment', t => {
   let changes = []
-  state.composeComment(state.currentView.discussion)
   state.updateComment(state.currentView.discussion, 'ring fellowship has appeared')
 
   autorun(() => changes.push(toJS(state.currentView.discussion.comments)))
   state.sendComment(state.currentView.discussion)
 
   setTimeout(() => {
-    t.equal(state.currentView.discussion.comment, null)  // shall reset reply
+    t.equal(state.currentView.discussion.comment, '')  // shall reset reply
     t.equal(state.requester.entityName, 'comments', 'req with approp entityName')
     t.deepEqual(state.requester.data, {
       parent: state.currentView.discussion.id,
