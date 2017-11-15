@@ -26,8 +26,8 @@ export default (BaseClass) => class DiscussRequester extends BaseClass {
   postComment (discussion) {
     return this.saveEntry('comments', {
       parent: discussion.id,
-      author: this.getLoggedUserId(),
-      body: discussion.comment
+      uid: this.getLoggedUserId(),
+      content: discussion.comment
     })
   }
 
@@ -40,8 +40,8 @@ export default (BaseClass) => class DiscussRequester extends BaseClass {
   postReply (comment) {
     return this.saveEntry('replies', {
       commentid: comment.id,
-      author: this.getLoggedUserId(),
-      body: comment.reply
+      uid: this.getLoggedUserId(),
+      content: comment.reply
     })
   }
 
@@ -60,9 +60,9 @@ export default (BaseClass) => class DiscussRequester extends BaseClass {
     return this.deleteEntry('commentfeedbacks', comment.feedback.id)
   }
 
-  postCommentFeedback (comment, feedback) {
+  postCommentFeedback (comment, value) {
     return this.saveEntry('commentfeedbacks', {
-      feedback,
+      value,
       commentid: comment.id,
       uid: this.getLoggedUserId()
     })

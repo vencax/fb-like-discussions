@@ -3,26 +3,26 @@ import CommentFeedbacksStateInit from './commentfeedbacks'
 
 export default (BaseClass) => class CommentsState extends CommentFeedbacksStateInit(BaseClass) {
 
-  @action loadComments(state, discussion, page = 1) {
-    const perPage = this.commentPageSize || 10
+  @action loadComments(state, discussion, opts = {page: 1, perPage: 10}) {
     if(state.shownDiscussion) {
       state.shownDiscussion.comments = []  // delete current
     }
     const _onDone = action('onCommentsLoaded', (result) => {
       result.data.map((comment) => {
-        comment.replies = []
+        comment.replies = null
         comment.reply = null
         comment.feedback = null
       })
       discussion.comments = result.data
       extendObservable(state, {shownDiscussion: discussion})
       extendObservable(discussion, {
-        totalComments: result.totalItems, page, perPage,
-        lastPage: Math.round(result.totalItems / perPage)
+        totalComments: result.totalItems,
+        lastPage: Math.round(result.totalItems / opts.perPage),
+        page: opts.page, perPage: opts.perPage
       })
       this.loadCommentFeedbacks(discussion.comments)
     })
-    this.requester.getComments(discussion.id, {page, perPage}).then(_onDone)
+    this.requester.getComments(discussion.id, opts).then(_onDone)
   }
 
   @action composeComment(discussion, status = true) {
@@ -30,10 +30,13 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
   }
 
   @action sendComment(discussion) {
-    const _onDone = action('onCommentSaved', (data) => {
-      data.replies = []
-      discussion.comments.push(data)
+    const _onDone = action('onCommentSaved', (newitem) => {
+      newitem.replies = null
+      newitem.reply = null
+      newitem.feedback = null
+      discussion.comments.push(newitem)
       discussion.comment = null
+      discussion.comment_count += 1
     })
     this.requester.postComment(discussion).then(_onDone)
   }

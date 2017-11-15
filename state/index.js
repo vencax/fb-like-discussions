@@ -23,7 +23,7 @@ export default (BaseClass) => (
         discussion.comments = []
         discussion.comment = null
         state.discussion = discussion
-        this.loadComments(state, state.discussion)
+        this.loadComments(state, state.discussion, {page: 1, perPage: this.commentPageSize})
       })
       return this.requester.getDiscussion(id).then(_onDone)
     }

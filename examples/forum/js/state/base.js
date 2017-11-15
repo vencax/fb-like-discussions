@@ -1,4 +1,4 @@
-import { observable, action, computed, asMap } from 'mobx'
+import { observable, action, computed } from 'mobx'
 
 export default class BaseState {
 
@@ -15,7 +15,7 @@ export default class BaseState {
     this.currentView = data
   }
 
-  @observable messages = asMap({})
+  @observable messages = observable.map({})
 
   @action addMessage(text, type, timeout = 0) {
     const message = {text, type, timeout}

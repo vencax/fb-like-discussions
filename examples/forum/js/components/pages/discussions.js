@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import Discussion from 'fb-like-comments/components/discussion'
 
@@ -19,6 +20,6 @@ const DiscussionsView = ({ state }) => (
   ) : <span>loading</span>
 )
 DiscussionsView.propTypes = {
-  state: React.PropTypes.object.isRequired
+  state: PropTypes.object.isRequired
 }
 export default observer(DiscussionsView)

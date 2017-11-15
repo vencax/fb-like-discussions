@@ -5,7 +5,7 @@ export default (BaseClass) => class CommentFeedbacksState extends RepliesStateIn
 
   @action
   upvote(comment) {
-    if(comment.feedback && comment.feedback.feedback === -1) {
+    if(comment.feedback && comment.feedback.value === -1) {
       // delete previous downvote
       return this.requester.deleteCommentFeedback(comment).then(() => {
         comment.feedback = null
@@ -22,7 +22,7 @@ export default (BaseClass) => class CommentFeedbacksState extends RepliesStateIn
 
   @action
   downvote(comment) {
-    if(comment.feedback && comment.feedback.feedback === 1) {
+    if(comment.feedback && comment.feedback.value === 1) {
       // delete previous upvote
       return this.requester.deleteCommentFeedback(comment).then(() => {
         comment.feedback = null

@@ -32,5 +32,13 @@ module.exports = {
     alias: {
       'fb-like-comments': __dirname
     }
+  },
+  externals: {
+    'axios': 'axios',
+    'mobx': 'mobx',
+    'mobx-react': 'mobxReact',
+    'react': 'React',
+    'react-dom': 'ReactDOM',
+    'history': 'history'
   }
 }
