@@ -21,8 +21,9 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
         page: opts.page, perPage: opts.perPage
       })
       this.loadCommentFeedbacks(discussion.comments)
+      return result.data
     })
-    this.requester.getComments(discussion.id, opts).then(_onDone)
+    return this.requester.getComments(discussion.id, opts).then(_onDone)
   }
 
   @action sendComment(discussion) {
@@ -33,8 +34,9 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
       discussion.comments.push(newitem)
       discussion.comment = ''
       discussion.comment_count += 1
+      return newitem
     })
-    this.requester.postComment(discussion).then(_onDone)
+    return this.requester.postComment(discussion).then(_onDone)
   }
 
   @action updateComment(discussion, val) {

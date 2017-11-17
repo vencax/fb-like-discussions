@@ -14,6 +14,7 @@ export default (BaseClass) => class RepliesState extends BaseClass {
       extendObservable(comment, {
         replies: result.data
       })
+      return result.data
     })
     return this.requester.getReplies(comment.id).then(_onDone)
   }
@@ -36,8 +37,9 @@ export default (BaseClass) => class RepliesState extends BaseClass {
       }
       comment.reply = ''
       comment.reply_count += 1
+      return data
     })
-    this.requester.postReply(comment).then(_onDone)
+    return this.requester.postReply(comment).then(_onDone)
   }
 
   @action
