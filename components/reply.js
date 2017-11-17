@@ -1,22 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export const Reply = ({reply, onReply, Gravatar, Heading}) => (
-  <div className='media reply'>
-    <div className='media-left'>
-      <Gravatar user={reply.uid} />
-    </div>
-    <div className='media-body'>
-      <span className='media-heading'>
-        <Heading record={reply} />
-      </span>
-      <span dangerouslySetInnerHTML={{__html: reply.content}} />
-      <div className='toolbar'>
-        <ReplyButton onClick={onReply} /> · <span>{reply.created}</span>
+export const Reply = ({reply, onReply, Gravatar, Heading, enabled = true}) => {
+  const replR = enabled ? <span><ReplyButton onClick={onReply} /> · </span> : null
+  return (
+    <div className='media reply'>
+      <div className='media-left'>
+        <Gravatar user={reply.uid} />
+      </div>
+      <div className='media-body'>
+        <span className='media-heading'>
+          <Heading record={reply} />
+        </span>
+        <span dangerouslySetInnerHTML={{__html: reply.content}} />
+        <div className='toolbar'>
+          {replR}<span>{reply.created}</span>
+        </div>
       </div>
     </div>
-  </div>
-)
+  )
+}
 Reply.propTypes = {
   reply: PropTypes.object.isRequired,
   Gravatar: PropTypes.func,

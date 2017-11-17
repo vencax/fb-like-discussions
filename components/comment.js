@@ -41,7 +41,7 @@ const Comment = ({
           {
             comment.replies && comment.replies.map((reply, idx) => (
               <Reply key={idx} reply={reply} Gravatar={Gravatar} Heading={Heading}
-                onReply={() => onReply(comment, reply)} />
+                onReply={() => onReply(comment, reply)} enabled={enabled} />
             ))
           }
           {
