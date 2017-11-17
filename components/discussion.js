@@ -42,18 +42,20 @@ const Discussion = ({
       </div>
     </div>
   ) : null
-  const comments = discussion.comments.length ? (
+  const comments = (
     <div className='comments-list'>
-      { discussion.comments.sort(comparator).map((comment, idx) => (
-        <Comment key={idx} comment={comment} state={state}
-          onLoadReplies={onLoadReplies} onReply={onReply}
-          onReplyChange={(newVal) => state.updateReply(comment, newVal)}
-          onSendReply={() => state.sendReply(discussion, comment)}
-          Gravatar={Gravatar} Heading={Heading} enabled={enabled} />
-      )) }
+      {
+        discussion.comments.length && discussion.comments.sort(comparator).map((comment, idx) => (
+          <Comment key={idx} comment={comment} state={state}
+            onLoadReplies={onLoadReplies} onReply={onReply}
+            onReplyChange={(newVal) => state.updateReply(comment, newVal)}
+            onSendReply={() => state.sendReply(discussion, comment)}
+            Gravatar={Gravatar} Heading={Heading} enabled={enabled} />
+        ))
+      }
       {commentForm}
     </div>
-  ) : null
+  )
   return (
     <div className='discussion'>
       {comments}

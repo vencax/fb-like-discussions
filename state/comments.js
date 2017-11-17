@@ -17,7 +17,7 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
       extendObservable(state, {shownDiscussion: discussion})
       extendObservable(discussion, {
         totalComments: result.totalItems,
-        lastPage: Math.round(result.totalItems / opts.perPage),
+        lastPage: Math.round(result.totalItems / opts.perPage) || 1,
         page: opts.page, perPage: opts.perPage
       })
       this.loadCommentFeedbacks(discussion.comments)
