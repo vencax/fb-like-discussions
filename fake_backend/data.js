@@ -20,7 +20,7 @@ module.exports = {
     'title': 'post2',
     'content': '<p>Rerum velit quos est <strong>p2</strong>. dfs tempora eos ulla</p>',
     'views': 3,
-    'comment_count': 0,
+    'comment_count': 1,
     'created': '2012-08-03',
     'author': 'saruman@mordor.nz',
     'category': 'magic',
@@ -71,10 +71,10 @@ module.exports = {
     'created': '2012-08-02'
   }, {
     'id': 3,
-    'parent': 3,
+    'parent': 2,
     'upvotes': 3,
     'downvotes': 2,
-    'reply_count': 0,
+    'reply_count': 1,
     'uid': user1,
     'content': 'Ja sem Frodo pytlik, tralala.',
     'created': '2012-08-23'
@@ -115,9 +115,9 @@ module.exports = {
     'created': '2012-10-02'
   }, {
     'id': 3,
-    'commentid': 2,
+    'commentid': 3,
     'uid': user1,
     'content': 'reply 1 on comment 2',
     'created': '2012-08-23'
-  }],
+  }]
 }
