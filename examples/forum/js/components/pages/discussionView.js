@@ -33,7 +33,8 @@ const DiscussionView = ({ state }) => {
         onLoadReplies={(comment, page=1)=>state.loadReplies(cv, comment, page)}
         onReply={state.onReply}
         Gravatar={DefaultGravatar} Heading={DefaultHeading}
-        enabled={discussion.id === 1}
+        enabled={discussion.id === 1 || discussion.id === 3}
+        feedbackable={discussion.id === 1}
       />
     </div>
   )

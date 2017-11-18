@@ -20,7 +20,7 @@ const Pagination = ({discussion, onLoadComments}) => {
 const Discussion = ({
   discussion, state, onLoadComments, onLoadReplies, onReply,
   onCommentChange, onSendComment, showCommentForm,
-  Gravatar, Heading, enabled = true
+  Gravatar, Heading, enabled = true, feedbackable = true
 }) => {
   //
   const comparator = (a, b) => {
@@ -45,13 +45,14 @@ const Discussion = ({
   const comments = (
     <div className='comments-list'>
       {
-        discussion.comments.length && discussion.comments.sort(comparator).map((comment, idx) => (
+        discussion.comments.length ? discussion.comments.sort(comparator).map((comment, idx) => (
           <Comment key={idx} comment={comment} state={state}
             onLoadReplies={onLoadReplies} onReply={onReply}
             onReplyChange={(newVal) => state.updateReply(comment, newVal)}
             onSendReply={() => state.sendReply(discussion, comment)}
-            Gravatar={Gravatar} Heading={Heading} enabled={enabled} />
-        ))
+            Gravatar={Gravatar} Heading={Heading}
+            enabled={enabled} feedbackable={feedbackable} />
+        )) : null
       }
       {commentForm}
     </div>

@@ -6,7 +6,7 @@ import {Reply, ReplyForm, ReplyButton} from './reply'
 const Comment = ({
   comment, state,
   onLoadReplies, onReplyChange, onReply, onSendReply,
-  Gravatar, Heading, enabled = true
+  Gravatar, Heading, enabled = true, feedbackable = true
 }) => {
   //
   function _onLoadRepliesClick (e) {
@@ -14,10 +14,12 @@ const Comment = ({
     onLoadReplies(comment)
   }
 
-  const feedback = <CommentFeedback comment={comment} state={state} />
+  const feedback = feedbackable
+    ? (<span><CommentFeedback comment={comment} state={state} /> · </span>)
+    : null
   const loadreplies = comment.reply_count > 0 && comment.replies === null ? (
     <a href='#' onClick={_onLoadRepliesClick}>
-      <i className='fa fa-comments' aria-hidden='true'></i> {comment.reply_count} replies ..
+       · <i className='fa fa-comments' aria-hidden='true'></i> {comment.reply_count} replies ..
     </a>
   ) : null
   const replyButton = enabled && comment.reply_count === 0 && comment.reply === null ? (
@@ -35,17 +37,17 @@ const Comment = ({
         </span>
         <span dangerouslySetInnerHTML={{__html: comment.content}} />
         <div className='toolbar'>
-          {replyButton}{feedback} · <span>{comment.created}</span> · {loadreplies}
+          {replyButton}{feedback}<span>{comment.created}</span>{loadreplies}
         </div>
         <div className='replies' style={{clear: 'both'}}>
           {
-            comment.replies && comment.replies.map((reply, idx) => (
+            comment.replies !== null ? comment.replies.map((reply, idx) => (
               <Reply key={idx} reply={reply} Gravatar={Gravatar} Heading={Heading}
                 onReply={() => onReply(comment, reply)} enabled={enabled} />
-            ))
+            )) : null
           }
           {
-            enabled && comment.reply !== null ? (
+            (enabled && comment.reply !== null) ? (
               <ReplyForm comment={comment} onChange={onReplyChange} onSend={onSendReply} Gravatar={Gravatar} />
             ) : null
           }
