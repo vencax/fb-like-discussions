@@ -6,24 +6,19 @@ import {Reply, ReplyForm, ReplyButton} from './reply'
 const Comment = ({
   comment, state,
   onLoadReplies, onReplyChange, onReply, onSendReply,
-  Gravatar, Heading, enabled = true, feedbackable = true
+  Gravatar, Heading, enabled = true, feedbackable = true, __, formatDate
 }) => {
   //
-  function _onLoadRepliesClick (e) {
-    e.preventDefault()
-    onLoadReplies(comment)
-  }
-
   const feedback = feedbackable
     ? (<span><CommentFeedback comment={comment} state={state} /> · </span>)
     : null
   const loadreplies = comment.reply_count > 0 && comment.replies === null ? (
-    <a href='#' onClick={_onLoadRepliesClick}>
-       · <i className='fa fa-comments' aria-hidden='true'></i> {comment.reply_count} replies ..
+    <a href='javascript:void(0)' onClick={() => onLoadReplies(comment)}>
+       · <i className='fa fa-comments'></i> {comment.reply_count} {__('replies')} ..
     </a>
   ) : null
   const replyButton = enabled && comment.reply_count === 0 && comment.reply === null ? (
-    <span><ReplyButton onClick={() => onReply(comment, null)} /> · </span>
+    <span><ReplyButton onClick={() => onReply(comment, null)} __={__} /> · </span>
   ) : null
 
   return (
@@ -37,18 +32,22 @@ const Comment = ({
         </span>
         <span dangerouslySetInnerHTML={{__html: comment.content}} />
         <div className='toolbar'>
-          {replyButton}{feedback}<span>{comment.created}</span>{loadreplies}
+          {replyButton}{feedback}<span>{formatDate(comment.created)}</span>{loadreplies}
         </div>
         <div className='replies' style={{clear: 'both'}}>
           {
             comment.replies !== null ? comment.replies.map((reply, idx) => (
               <Reply key={idx} reply={reply} Gravatar={Gravatar} Heading={Heading}
-                onReply={() => onReply(comment, reply)} enabled={enabled} />
+                onReply={() => onReply(comment, reply)} enabled={enabled}
+                __={__} formatDate={formatDate}
+              />
             )) : null
           }
           {
             (enabled && comment.reply !== null) ? (
-              <ReplyForm comment={comment} onChange={onReplyChange} onSend={onSendReply} Gravatar={Gravatar} />
+              <ReplyForm comment={comment} onChange={onReplyChange}
+                onSend={onSendReply} Gravatar={Gravatar} __={__}
+              />
             ) : null
           }
         </div>

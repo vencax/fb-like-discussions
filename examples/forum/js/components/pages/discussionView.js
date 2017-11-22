@@ -35,6 +35,8 @@ const DiscussionView = ({ state }) => {
         Gravatar={DefaultGravatar} Heading={DefaultHeading}
         enabled={discussion.id === 1 || discussion.id === 3}
         feedbackable={discussion.id === 1}
+        formatDate={(d) => moment(d).format('MM/DD/YYYY')}
+        __={(s) => `*${s}*`}
       />
     </div>
   )

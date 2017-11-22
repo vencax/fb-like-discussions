@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export const Reply = ({reply, onReply, Gravatar, Heading, enabled = true}) => {
-  const replR = enabled ? <span><ReplyButton onClick={onReply} /> · </span> : null
+export const Reply = ({reply, onReply, Gravatar, Heading, enabled = true, __, formatDate}) => {
+  const replR = enabled ? <span><ReplyButton onClick={onReply} __={__} /> · </span> : null
   return (
     <div className='media reply'>
       <div className='media-left'>
@@ -14,7 +14,7 @@ export const Reply = ({reply, onReply, Gravatar, Heading, enabled = true}) => {
         </span>
         <span dangerouslySetInnerHTML={{__html: reply.content}} />
         <div className='toolbar'>
-          {replR}<span>{reply.created}</span>
+          {replR}<span>{formatDate(reply.created)}</span>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@ Reply.propTypes = {
 
 // -----------------------------------------------------------------------------
 
-export const ReplyForm = ({comment, onChange, onSend, Gravatar}) => {
+export const ReplyForm = ({comment, onChange, onSend, Gravatar, __}) => {
   return (
     <div className='media reply'>
       <div className='media-left'>
@@ -40,14 +40,14 @@ export const ReplyForm = ({comment, onChange, onSend, Gravatar}) => {
             <textarea className='form-control'
               onChange={(e) => onChange(e.target.value)} value={comment.reply} />
           </div>
-          <button type='button' className='btn btn-primary btn-sm' onClick={(e) => onSend()}>send</button>
+          <button type='button' className='btn btn-primary btn-sm' onClick={(e) => onSend()}>{__('send')}</button>
         </form>
       </div>
     </div>
   )
 }
 
-export const ReplyButton = ({onClick}) => (
+export const ReplyButton = ({onClick, __}) => (
   <button type='button' className='btn btn-primary btn-sm'
-    onClick={(e) => onClick()}>reply</button>
+    onClick={(e) => onClick()}>{__('reply')}</button>
 )

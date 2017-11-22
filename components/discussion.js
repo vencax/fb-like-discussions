@@ -3,24 +3,27 @@ import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import Comment from './comment'
 
-const Pagination = ({discussion, onLoadComments}) => {
+const Pagination = ({discussion, onLoadComments, __}) => {
   const showPrev = (discussion.page > 1) &&
     (discussion.totalComments > discussion.perPage)
   const showNext = (discussion.page < discussion.lastPage)
   return (
     <div className='pull-right'>
       {showPrev ? <button type='button' className='btn btn-sm'
-        onClick={(e) => onLoadComments(discussion.page - 1)}>prev</button> : null}
+        onClick={(e) => onLoadComments(discussion.page - 1)}>{__('prev')}</button> : null}
       {showNext ? <button type='button' className='btn btn-sm'
-        onClick={(e) => onLoadComments(discussion.page + 1)}>next</button> : null}
+        onClick={(e) => onLoadComments(discussion.page + 1)}>{__('next')}</button> : null}
     </div>
   )
 }
 
+const _dentity = (v) => v
+
 const Discussion = ({
   discussion, state, onLoadComments, onLoadReplies, onReply,
   onCommentChange, onSendComment, showCommentForm,
-  Gravatar, Heading, enabled = true, feedbackable = true
+  Gravatar, Heading, enabled = true, feedbackable = true,
+  __ = _dentity, formatDate = _dentity
 }) => {
   //
   const comparator = (a, b) => {
@@ -37,7 +40,7 @@ const Discussion = ({
           <div className='form-group'>
             <textarea className='form-control' onChange={(e) => onCommentChange(e.target.value)} value={discussion.comment} />
           </div>
-          <button type='button' className='btn btn-primary btn-sm' onClick={(e) => onSendComment()}>send</button>
+          <button type='button' className='btn btn-primary btn-sm' onClick={(e) => onSendComment()}>{__('send')}</button>
         </form>
       </div>
     </div>
@@ -51,7 +54,8 @@ const Discussion = ({
             onReplyChange={(newVal) => state.updateReply(comment, newVal)}
             onSendReply={() => state.sendReply(discussion, comment)}
             Gravatar={Gravatar} Heading={Heading}
-            enabled={enabled} feedbackable={feedbackable} />
+            enabled={enabled} feedbackable={feedbackable}
+            __={__} formatDate={formatDate} />
         )) : null
       }
       {commentForm}
@@ -61,7 +65,7 @@ const Discussion = ({
     <div className='discussion'>
       {comments}
       <hr />
-      <Pagination discussion={discussion} onLoadComments={onLoadComments} />
+      <Pagination discussion={discussion} onLoadComments={onLoadComments} __={__} />
     </div>
   )
 }
