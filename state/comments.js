@@ -3,7 +3,7 @@ import CommentFeedbacksStateInit from './commentfeedbacks'
 
 export default (BaseClass) => class CommentsState extends CommentFeedbacksStateInit(BaseClass) {
 
-  @action loadComments(state, discussion, opts = {page: 1, perPage: 10}) {
+  @action loadComments(state, discussion, opts = {page: 1, perPage: 10, loadFeedbacks: false}) {
     if(state.shownDiscussion) {
       state.shownDiscussion.comments = []  // delete current
     }
@@ -20,7 +20,7 @@ export default (BaseClass) => class CommentsState extends CommentFeedbacksStateI
         lastPage: Math.round(result.totalItems / opts.perPage) || 1,
         page: opts.page, perPage: opts.perPage
       })
-      this.loadCommentFeedbacks(discussion.comments)
+      opts.loadFeedbacks && this.loadCommentFeedbacks(discussion.comments)
       return result.data
     })
     return this.requester.getComments(discussion.id, opts).then(_onDone)

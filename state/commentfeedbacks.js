@@ -44,7 +44,7 @@ export default (BaseClass) => class CommentFeedbacksState extends RepliesStateIn
           comment.feedback = result.data[0]
         }
       })
-      this.requester.getFeedback(comment).then(_onDone)
+      this.requester.getFeedback(comment).then(_onDone).catch(() => {})
     })
   }
 
