@@ -1,7 +1,12 @@
+/* global myContentRender */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import {Reply, ReplyForm, ReplyButton} from './reply'
+
+function _render (content) {
+  return myContentRender ? myContentRender(content) : content
+}
 
 const Comment = ({
   comment, state,
@@ -14,7 +19,7 @@ const Comment = ({
     : null
   const loadreplies = comment.reply_count > 0 && comment.replies === null ? (
     <a href='javascript:void(0)' onClick={() => onLoadReplies(comment)}>
-       · <i className='fa fa-comments'></i> {comment.reply_count} {__('replies')} ..
+       · <i className='fa fa-comments' /> {comment.reply_count} {__('replies')} ..
     </a>
   ) : null
   const replyButton = enabled && comment.reply_count === 0 && comment.reply === null ? (
@@ -30,7 +35,7 @@ const Comment = ({
         <span className='media-heading'>
           <Heading record={comment} />
         </span>
-        <span dangerouslySetInnerHTML={{__html: comment.content}} />
+        <span dangerouslySetInnerHTML={{__html: _render(comment.content)}} />
         <div className='toolbar'>
           {replyButton}{feedback}<span>{formatDate(comment.created)}</span>{loadreplies}
         </div>
@@ -73,13 +78,13 @@ const _CommentFeedback = ({ comment, state }) => {
       <button type='button' className='btn btn-sm'
         disabled={comment.feedback && comment.feedback.value === 1}
         onClick={(e) => state.upvote(comment)}>
-        {comment.upvotes} <i className='fa fa-thumbs-o-up'></i>
+        {comment.upvotes} <i className='fa fa-thumbs-o-up' />
       </button>
 
       <button type='button' className='btn btn-sm'
         disabled={comment.feedback && comment.feedback.value === -1}
         onClick={(e) => state.downvote(comment)}>
-        {comment.downvotes} <i className='fa fa-thumbs-o-down'></i>
+        {comment.downvotes} <i className='fa fa-thumbs-o-down' />
       </button>
     </div>
   )

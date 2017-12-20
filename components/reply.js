@@ -1,5 +1,10 @@
+/* global myContentRender */
 import React from 'react'
 import PropTypes from 'prop-types'
+
+function _render (content) {
+  return myContentRender ? myContentRender(content) : content
+}
 
 export const Reply = ({reply, onReply, Gravatar, Heading, enabled = true, __, formatDate}) => {
   const replR = enabled ? <span><ReplyButton onClick={onReply} __={__} /> · </span> : null
@@ -12,7 +17,7 @@ export const Reply = ({reply, onReply, Gravatar, Heading, enabled = true, __, fo
         <span className='media-heading'>
           <Heading record={reply} />
         </span>
-        <span dangerouslySetInnerHTML={{__html: reply.content}} />
+        <span dangerouslySetInnerHTML={{__html: _render(reply.content)}} />
         <div className='toolbar'>
           {replR}<span>{formatDate(reply.created)}</span>
         </div>
